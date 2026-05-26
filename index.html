@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bui Hoang Duy — Game Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ── THEME ── */
+    :root {
+      --bg:       #08080f;
+      --surface:  #10101a;
+      --panel:    #14141f;
+      --border:   #22223a;
+      --text:     #b8b8cc;
+      --muted:    #55556a;
+      --green:    #00ff88;
+      --pink:     #ff4466;
+      --blue:     #44aaff;
+      --amber:    #ffcc00;
+    }
+
+    /* ── BASE ── */
+    body {
+      font-family: 'Space Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── SCANLINES ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.06) 2px,
+        rgba(0,0,0,0.06) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,8,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      color: var(--green);
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--green); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 6rem 0 4rem;
+    }
+
+    /* animated grid */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,136,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,0.05) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridScroll 10s linear infinite;
+    }
+
+    @keyframes gridScroll {
+      from { transform: perspective(600px) rotateX(25deg) translateY(0); }
+      to   { transform: perspective(600px) rotateX(25deg) translateY(50px); }
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      width: 100%;
+    }
+
+    .hero-tag {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: var(--green);
+      letter-spacing: 4px;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeIn 0.6s ease 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(20px, 4vw, 36px);
+      color: #fff;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      text-shadow:
+        0 0 40px rgba(0,255,136,0.5),
+        4px 4px 0 rgba(0,255,136,0.15);
+      opacity: 0;
+      animation: fadeIn 0.6s ease 0.4s forwards;
+    }
+
+    .hero-title {
+      font-size: 13px;
+      color: var(--blue);
+      letter-spacing: 3px;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeIn 0.6s ease 0.6s forwards;
+    }
+
+    /* stats bar */
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeIn 0.6s ease 0.8s forwards;
+    }
+
+    .stat-num {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 22px;
+      display: block;
+      animation: glitch 4s step-end infinite;
+    }
+
+    .stat:nth-child(1) .stat-num { color: var(--green); }
+    .stat:nth-child(2) .stat-num { color: var(--pink); animation-delay: 1.3s; }
+    .stat:nth-child(3) .stat-num { color: var(--blue); animation-delay: 2.6s; }
+
+    @keyframes glitch {
+      0%, 90%, 100% { transform: none; text-shadow: none; }
+      92% { transform: translateX(-2px); text-shadow: 2px 0 var(--pink); }
+      94% { transform: translateX(2px); text-shadow: -2px 0 var(--blue); }
+      96% { transform: none; }
+    }
+
+    .stat-label {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-top: 6px;
+      display: block;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 14px 28px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+      opacity: 0;
+      animation: fadeIn 0.6s ease 1s forwards;
+    }
+
+    .hero-cta:hover {
+      background: var(--green);
+      color: var(--bg);
+      box-shadow: 0 0 20px rgba(0,255,136,0.4);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 0; border-top: 1px solid var(--border); }
+
+    .section-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: var(--green);
+      letter-spacing: 3px;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 600px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-text {
+      font-size: 13px;
+      line-height: 2;
+      color: var(--text);
+    }
+
+    .about-text p + p { margin-top: 1rem; }
+
+    .info-list { list-style: none; }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+
+    .info-key {
+      color: var(--muted);
+      width: 100px;
+      flex-shrink: 0;
+      letter-spacing: 1px;
+    }
+
+    .info-val { color: var(--text); }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .skill-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 16px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--green);
+      transform: translateY(-2px);
+    }
+
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .skill-name {
+      font-size: 10px;
+      color: #ddd;
+      letter-spacing: 1px;
+    }
+
+    .skill-pct {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .skill-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      border-radius: 2px;
+      width: 0;
+      transition: width 1.4s cubic-bezier(.22,.68,0,1.2);
+    }
+
+    .c-green { background: linear-gradient(90deg, #00aa55, var(--green)); }
+    .c-blue  { background: linear-gradient(90deg, #2266cc, var(--blue)); }
+    .c-pink  { background: linear-gradient(90deg, #aa2244, var(--pink)); }
+    .c-amber { background: linear-gradient(90deg, #cc8800, var(--amber)); }
+
+    /* ── GAMES ── */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .game-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--blue);
+    }
+
+    .game-thumb {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-thumb span { position: relative; z-index: 1; }
+
+    .game-thumb::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+
+    .gt-green { background: #06120a; }
+    .gt-green::before { background: radial-gradient(circle at 50% 60%, rgba(0,255,136,0.2), transparent 70%); }
+    .gt-red   { background: #120608; }
+    .gt-red::before   { background: radial-gradient(circle at 50% 60%, rgba(255,68,102,0.2), transparent 70%); }
+    .gt-blue  { background: #06080f; }
+    .gt-blue::before  { background: radial-gradient(circle at 50% 60%, rgba(68,170,255,0.2), transparent 70%); }
+    .gt-amber { background: #120f02; }
+    .gt-amber::before { background: radial-gradient(circle at 50% 60%, rgba(255,200,0,0.2), transparent 70%); }
+
+    .game-info { padding: 14px 16px; }
+
+    .game-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .game-meta {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .game-desc {
+      font-size: 11px;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .tag {
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .tag-green { background: rgba(0,255,136,0.1); color: #00cc66; border: 1px solid rgba(0,255,136,0.25); }
+    .tag-blue  { background: rgba(68,170,255,0.1); color: #44aaff; border: 1px solid rgba(68,170,255,0.25); }
+    .tag-pink  { background: rgba(255,68,102,0.1); color: #ff4466; border: 1px solid rgba(255,68,102,0.25); }
+    .tag-amber { background: rgba(255,200,0,0.1); color: #ffcc00; border: 1px solid rgba(255,200,0,0.25); }
+
+    /* ── EXPERIENCE ── */
+    .timeline { position: relative; padding-left: 2rem; }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--green), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+
+    .timeline-item::before {
+      content: '▶';
+      position: absolute;
+      left: -2.2rem;
+      top: 2px;
+      font-size: 10px;
+      color: var(--green);
+    }
+
+    .tl-date {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .tl-role {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .tl-company {
+      font-size: 11px;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+
+    .tl-desc {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 600px) { .contact-grid { grid-template-columns: 1fr; } }
+
+    .contact-links { list-style: none; }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+      font-size: 13px;
+    }
+
+    .contact-link:hover { color: var(--green); }
+
+    .contact-link svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+
+    .contact-link-label { color: var(--muted); font-size: 10px; display: block; margin-top: 2px; }
+
+    .available-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,255,136,0.08);
+      border: 1px solid rgba(0,255,136,0.25);
+      border-radius: 4px;
+      padding: 8px 14px;
+      font-size: 11px;
+      color: var(--green);
+      margin-bottom: 2rem;
+    }
+
+    .available-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .contact-desc {
+      font-size: 13px;
+      line-height: 2;
+      color: var(--text);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 2px;
+    }
+
+    /* ── SCROLL ANIMATION ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <span class="nav-logo">▶ BHD.DEV</span>
+      <ul class="nav-links">
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#skills">SKILLS</a></li>
+        <li><a href="#games">GAMES</a></li>
+        <li><a href="#experience">EXP</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="container hero-content">
+      <p class="hero-tag">▶ PLAYER ONE HAS ENTERED</p>
+      <h1 class="hero-name">BUI HOANG DUY</h1>
+      <p class="hero-title">GAME DEVELOPER · UNITY · C++ FRAMEWORKS</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">12+</span>
+          <span class="stat-label">GAMES SHIPPED</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">5YR</span>
+          <span class="stat-label">EXPERIENCE</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">50K</span>
+          <span class="stat-label">DOWNLOADS</span>
+        </div>
+      </div>
+      <a href="#games" class="hero-cta">
+        ▶ XEM GAMES
+      </a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container reveal">
+      <p class="section-label">// 01</p>
+      <h2 class="section-title">ABOUT ME</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            Xin chào! Mình là Duy, một game developer tại Hồ Chí Minh với hơn 1 năm kinh nghiệm
+            tạo ra những trải nghiệm chơi game độc đáo trên mobile và PC.
+          </p>
+          <p>
+            Đam mê kết hợp storytelling mạnh mẽ với mechanics sáng tạo, luôn tìm kiếm sự cân bằng
+            giữa gameplay fun và visual đẹp.
+          </p>
+          <p>
+            Bên cạnh game dev, mình cũng thích làm game jam, nghiên cứu những công nghệ, kỹ thuật mới để luôn 
+            không ngừng phát triển kỹ năng phát triển game
+          </p>
+        </div>
+        <ul class="info-list">
+          <li class="info-item">
+            <span class="info-key">LOCATION</span>
+            <span class="info-val">Ho Chi Minh City 🇻🇳</span>
+          </li>
+          <li class="info-item">
+            <span class="info-key">SPECIALTY</span>
+            <span class="info-val">Unity / Mobile Game</span>
+          </li>
+          <li class="info-item">
+            <span class="info-key">LANGUAGES</span>
+            <span class="info-val">C#, C++</span>
+          </li>
+          <li class="info-item">
+            <span class="info-key">EDUCATION</span>
+            <span class="info-val">HCMUS — CS 2021</span>
+          </li>
+          <li class="info-item">
+            <span class="info-key">CV</span>
+            <span class="info-val"><a href="cv.pdf" style="color:var(--blue);">Download PDF ↓</a></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container reveal">
+      <p class="section-label">// 02</p>
+      <h2 class="section-title">SKILLS & TOOLS</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">UNITY / C#</span>
+            <span class="skill-pct">92%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-green" data-w="92"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">UNREAL / C++</span>
+            <span class="skill-pct">75%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-blue" data-w="75"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">GODOT / GDSCRIPT</span>
+            <span class="skill-pct">80%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-amber" data-w="80"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">SHADER / HLSL</span>
+            <span class="skill-pct">65%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-pink" data-w="65"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">BLENDER 3D</span>
+            <span class="skill-pct">70%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-blue" data-w="70"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">GAME DESIGN</span>
+            <span class="skill-pct">88%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-green" data-w="88"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">PHOTOSHOP / ASEPRITE</span>
+            <span class="skill-pct">78%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-amber" data-w="78"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">GIT / GITHUB</span>
+            <span class="skill-pct">90%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-green" data-w="90"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAMES -->
+  <section id="games">
+    <div class="container reveal">
+      <p class="section-label">// 03</p>
+      <h2 class="section-title">FEATURED GAMES</h2>
+      <div class="games-grid">
+        <div class="game-card">
+          <div class="game-thumb gt-green"><span>🌿</span></div>
+          <div class="game-info">
+            <p class="game-title">FOREST SPIRIT</p>
+            <p class="game-meta">2024 · UNITY · MOBILE</p>
+            <p class="game-desc">Puzzle game về một hồn ma rừng cần khôi phục sự cân bằng thiên nhiên. Top 10 itch.io tháng 3/2024.</p>
+            <div class="tags">
+              <span class="tag tag-green">PUZZLE</span>
+              <span class="tag tag-amber">CASUAL</span>
+              <span class="tag tag-blue">MOBILE</span>
+            </div>
+          </div>
+        </div>
+        <div class="game-card">
+          <div class="game-thumb gt-red"><span>⚔️</span></div>
+          <div class="game-info">
+            <p class="game-title">VOID RAIDERS</p>
+            <p class="game-meta">2023 · UNREAL · PC</p>
+            <p class="game-desc">Roguelike action game với combat system độc đáo và thế giới procedural được generate. 5K+ players.</p>
+            <div class="tags">
+              <span class="tag tag-pink">ACTION</span>
+              <span class="tag tag-blue">ROGUELIKE</span>
+              <span class="tag tag-amber">PC</span>
+            </div>
+          </div>
+        </div>
+        <div class="game-card">
+          <div class="game-thumb gt-blue"><span>🚀</span></div>
+          <div class="game-info">
+            <p class="game-title">STAR DRIFT</p>
+            <p class="game-meta">2023 · UNITY · PC</p>
+            <p class="game-desc">Racing game trong không gian với physics engine tự viết và 20+ track độc đáo. Được featured trên Steam.</p>
+            <div class="tags">
+              <span class="tag tag-blue">RACING</span>
+              <span class="tag tag-green">SCI-FI</span>
+              <span class="tag tag-amber">STEAM</span>
+            </div>
+          </div>
+        </div>
+        <div class="game-card">
+          <div class="game-thumb gt-amber"><span>🧩</span></div>
+          <div class="game-info">
+            <p class="game-title">MINDLOCK</p>
+            <p class="game-meta">2022 · GODOT · MOBILE</p>
+            <p class="game-desc">Puzzle game logic challenge với 100+ level handcrafted. 15K downloads trên Google Play và App Store.</p>
+            <div class="tags">
+              <span class="tag tag-amber">PUZZLE</span>
+              <span class="tag tag-green">INDIE</span>
+              <span class="tag tag-blue">CROSS-PLATFORM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container reveal">
+      <p class="section-label">// 04</p>
+      <h2 class="section-title">EXPERIENCE</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <p class="tl-date">2023 — PRESENT</p>
+          <p class="tl-role">Senior Game Developer</p>
+          <p class="tl-company">VNG Game Studios, HCM City</p>
+          <p class="tl-desc">Lead developer cho mobile game RPG với 500K MAU. Phụ trách architecture, performance optimization và hướng dẫn team 5 người.</p>
+        </div>
+        <div class="timeline-item">
+          <p class="tl-date">2021 — 2023</p>
+          <p class="tl-role">Game Developer</p>
+          <p class="tl-company">Sky Mavis (Axie Infinity), Remote</p>
+          <p class="tl-desc">Phát triển game mechanics và smart contract integration cho blockchain game. Unity frontend với WebGL build optimization.</p>
+        </div>
+        <div class="timeline-item">
+          <p class="tl-date">2019 — 2021</p>
+          <p class="tl-role">Junior Game Developer</p>
+          <p class="tl-company">Amanotes, HCM City</p>
+          <p class="tl-desc">Phát triển và maintain 3 music game trên mobile. Tập trung vào audio synchronization và UI/UX animation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container reveal">
+      <p class="section-label">// 05</p>
+      <h2 class="section-title">CONTACT</h2>
+      <div class="contact-grid">
+        <div>
+          <div class="available-badge">
+            <div class="available-dot"></div>
+            Available for freelance & collab
+          </div>
+          <p class="contact-desc">
+            Mình luôn mở cửa với những dự án thú vị và cơ hội hợp tác.
+            Dù là indie game, mobile app, hay game jam — hãy nhắn tin nhé!
+          </p>
+        </div>
+        <ul class="contact-links">
+          <li>
+            <a href="https://github.com/yourusername" class="contact-link" target="_blank">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+              <span class="contact-link-label">github.com/yourusername</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://yourusername.itch.io" class="contact-link" target="_blank">
+              <svg viewBox="0 0 24 24"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v1.03c0 1.303 1.22 2.45 2.325 2.45 1.33 0 2.436-1.102 2.436-2.41 0 1.308 1.07 2.41 2.4 2.41 1.328 0 2.362-1.102 2.362-2.41 0 1.308 1.107 2.41 2.436 2.41h.024c1.328 0 2.435-1.102 2.435-2.41 0 1.308 1.034 2.41 2.362 2.41 1.33 0 2.4-1.102 2.4-2.41 0 1.308 1.106 2.41 2.435 2.41C22.78 8.43 24 7.282 24 5.98V4.95c-.02-.622-2.08-2.99-3.13-3.612C19.154.53 4.846.53 3.13 1.338zM6.9 9.77a3.38 3.38 0 01-.88-.117C5.908 11.5 5.855 12.98 5.855 14.95v1.008c0 3.073 0 5.972 6.145 5.972s6.145-2.9 6.145-5.972V14.95c0-1.968-.053-3.448-.165-5.297a3.38 3.38 0 01-.88.117c-.92 0-1.763-.343-2.4-.9a3.385 3.385 0 01-2.36.954h-.025c-.9 0-1.72-.35-2.36-.955a3.385 3.385 0 01-2.4.9zm1.44 3.625h7.32s.22 4.65-3.66 4.65-3.66-4.65-3.66-4.65z"/></svg>
+              itch.io
+              <span class="contact-link-label">yourusername.itch.io</span>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:hello@yourdomain.com" class="contact-link">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              Email
+              <span class="contact-link-label">hello@yourdomain.com</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank">
+              <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              LinkedIn
+              <span class="contact-link-label">linkedin.com/in/yourprofile</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2024 BUI HOANG DUY · BUILT WITH ❤ + HTML/CSS · HOSTED ON GITHUB PAGES</p>
+    </div>
+  </footer>
+
+  <script>
+    // Skill bars animate when visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // animate skill bars inside this section
+          entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+            bar.style.width = bar.dataset.w + '%';
+          });
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
