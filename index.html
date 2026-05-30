@@ -5,69 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bui Hoang Duy — Game Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     /* ── RESET ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+
+    html {
+      overflow-y: scroll;
+      height: 100%;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
 
     /* ── THEME ── */
     :root {
-      --bg:       #08080f;
-      --surface:  #10101a;
-      --panel:    #14141f;
-      --border:   #22223a;
-      --text:     #b8b8cc;
-      --muted:    #55556a;
-      --green:    #00ff88;
-      --pink:     #ff4466;
-      --blue:     #44aaff;
-      --amber:    #ffcc00;
+      --bg:       #ffffff;
+      --surface:  #f7f7f7;
+      --border:   #e8e8e8;
+      --text:     #1a1a1a;
+      --muted:    #888888;
+      --subtle:   #bbbbbb;
+      --accent:   #1a6cff;
+      --accent-light: #eff4ff;
+      --nav-h:    56px;
     }
 
     /* ── BASE ── */
     body {
-      font-family: 'Space Mono', monospace;
+      font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     a { color: inherit; text-decoration: none; }
 
-    /* ── SCANLINES ── */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.06) 2px,
-        rgba(0,0,0,0.06) 4px
-      );
-      pointer-events: none;
-      z-index: 9999;
-    }
-
     /* ── LAYOUT ── */
     .container {
-      max-width: 880px;
+      max-width: 840px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 0 2rem;
     }
 
     /* ── NAV ── */
     nav {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
-      background: rgba(8,8,15,0.92);
+      background: rgba(255,255,255,0.9);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 1rem 0;
+      padding: 1.1rem 0;
     }
 
     nav .container {
@@ -77,196 +69,243 @@
     }
 
     .nav-logo {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 11px;
-      color: var(--green);
-      letter-spacing: 1px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.5px;
     }
+
+    .nav-logo span { color: var(--accent); }
 
     .nav-links {
       display: flex;
-      gap: 1.5rem;
+      gap: 2rem;
       list-style: none;
     }
 
     .nav-links a {
-      font-size: 11px;
+      font-size: 13px;
       color: var(--muted);
-      letter-spacing: 1px;
-      transition: color 0.2s;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      transition: color 0.15s;
     }
 
-    .nav-links a:hover { color: var(--green); }
+    .nav-links a:hover { color: var(--text); }
 
     /* ── HERO ── */
     .hero {
-      position: relative;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       align-items: center;
-      overflow: hidden;
-      padding: 6rem 0 4rem;
+      background:
+        radial-gradient(ellipse at 15% 60%, rgba(219,234,254,0.75) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 15%, rgba(237,233,254,0.65) 0%, transparent 50%),
+        var(--bg);
     }
 
-    /* animated grid */
-    .hero-grid {
+    .hero .container {
+      padding-top: var(--nav-h);
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 640px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-avatar-wrap { order: -1; }
+    }
+
+    .hero-avatar-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* decorative ring */
+    .hero-avatar-wrap::before {
+      content: '';
       position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,255,136,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,136,0.05) 1px, transparent 1px);
-      background-size: 50px 50px;
-      animation: gridScroll 10s linear infinite;
-    }
-
-    @keyframes gridScroll {
-      from { transform: perspective(600px) rotateX(25deg) translateY(0); }
-      to   { transform: perspective(600px) rotateX(25deg) translateY(50px); }
-    }
-
-    .hero-glow {
-      position: absolute;
-      width: 500px; height: 500px;
+      inset: -10px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -60%);
+      background: conic-gradient(from 180deg, var(--accent) 0%, #a78bfa 40%, #60a5fa 70%, var(--accent) 100%);
+      opacity: 0.18;
     }
 
-    .hero-content {
+    .hero-avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ffffff;
+      box-shadow: 0 0 0 1px var(--border), 0 16px 48px rgba(26,108,255,0.14);
       position: relative;
       z-index: 1;
-      text-align: center;
-      width: 100%;
+      display: block;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.25s forwards;
     }
 
-    .hero-tag {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 9px;
-      color: var(--green);
-      letter-spacing: 4px;
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
       margin-bottom: 1.5rem;
       opacity: 0;
-      animation: fadeIn 0.6s ease 0.2s forwards;
+      animation: fadeUp 0.5s ease 0.1s forwards;
     }
 
     .hero-name {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(20px, 4vw, 36px);
-      color: #fff;
-      line-height: 1.5;
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+      letter-spacing: -1.5px;
       margin-bottom: 1rem;
-      text-shadow:
-        0 0 40px rgba(0,255,136,0.5),
-        4px 4px 0 rgba(0,255,136,0.15);
       opacity: 0;
-      animation: fadeIn 0.6s ease 0.4s forwards;
+      animation: fadeUp 0.5s ease 0.2s forwards;
     }
 
     .hero-title {
-      font-size: 13px;
-      color: var(--blue);
-      letter-spacing: 3px;
-      margin-bottom: 3rem;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      letter-spacing: -0.2px;
       opacity: 0;
-      animation: fadeIn 0.6s ease 0.6s forwards;
+      animation: fadeUp 0.5s ease 0.3s forwards;
     }
 
-    /* stats bar */
+    .hero-title strong { color: var(--text); font-weight: 600; }
+
     .hero-stats {
       display: flex;
-      justify-content: center;
       gap: 3rem;
       margin-bottom: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
       opacity: 0;
-      animation: fadeIn 0.6s ease 0.8s forwards;
+      animation: fadeUp 0.5s ease 0.4s forwards;
     }
 
     .stat-num {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 22px;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -1px;
       display: block;
-      animation: glitch 4s step-end infinite;
-    }
-
-    .stat:nth-child(1) .stat-num { color: var(--green); }
-    .stat:nth-child(2) .stat-num { color: var(--pink); animation-delay: 1.3s; }
-    .stat:nth-child(3) .stat-num { color: var(--blue); animation-delay: 2.6s; }
-
-    @keyframes glitch {
-      0%, 90%, 100% { transform: none; text-shadow: none; }
-      92% { transform: translateX(-2px); text-shadow: 2px 0 var(--pink); }
-      94% { transform: translateX(2px); text-shadow: -2px 0 var(--blue); }
-      96% { transform: none; }
+      line-height: 1;
+      margin-bottom: 4px;
     }
 
     .stat-label {
-      font-size: 9px;
+      font-size: 12px;
       color: var(--muted);
-      letter-spacing: 1px;
-      margin-top: 6px;
-      display: block;
+      font-weight: 500;
+      letter-spacing: 0.2px;
     }
 
     .hero-cta {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      border: 1px solid var(--green);
-      color: var(--green);
-      padding: 14px 28px;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 9px;
-      letter-spacing: 2px;
-      cursor: pointer;
-      transition: all 0.2s;
+      gap: 8px;
+      background: var(--text);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      transition: all 0.15s;
       opacity: 0;
-      animation: fadeIn 0.6s ease 1s forwards;
+      animation: fadeUp 0.5s ease 0.5s forwards;
     }
 
     .hero-cta:hover {
-      background: var(--green);
-      color: var(--bg);
-      box-shadow: 0 0 20px rgba(0,255,136,0.4);
+      background: var(--accent);
+      transform: translateY(-1px);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+    .hero-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.15s;
+      margin-left: 12px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.55s forwards;
+    }
+
+    .hero-cta-secondary:hover {
+      border-color: var(--text);
+      background: var(--surface);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── SECTIONS ── */
-    section { padding: 5rem 0; border-top: 1px solid var(--border); }
+    /* ── SECTIONS — each fills the viewport ── */
+    section {
+      height: 100vh;
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+    }
+
+    section .container {
+      padding-top: calc(var(--nav-h) + 2rem);
+      padding-bottom: 2rem;
+      width: 100%;
+    }
 
     .section-label {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 9px;
-      color: var(--green);
-      letter-spacing: 3px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
       margin-bottom: 0.5rem;
     }
 
     .section-title {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 700;
-      color: #fff;
-      margin-bottom: 3rem;
+      color: var(--text);
+      letter-spacing: -0.8px;
+      margin-bottom: 2rem;
     }
 
     /* ── ABOUT ── */
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
+      gap: 4rem;
       align-items: start;
     }
 
-    @media (max-width: 600px) { .about-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 620px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
 
     .about-text {
-      font-size: 13px;
-      line-height: 2;
-      color: var(--text);
+      font-size: 15px;
+      line-height: 1.8;
+      color: #444;
     }
 
     .about-text p + p { margin-top: 1rem; }
@@ -275,40 +314,43 @@
 
     .info-item {
       display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 0;
+      align-items: baseline;
+      gap: 16px;
+      padding: 11px 0;
       border-bottom: 1px solid var(--border);
-      font-size: 12px;
+      font-size: 13px;
     }
 
     .info-key {
       color: var(--muted);
-      width: 100px;
+      width: 90px;
       flex-shrink: 0;
-      letter-spacing: 1px;
+      font-weight: 500;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .info-val { color: var(--text); }
+    .info-val { color: var(--text); font-weight: 500; }
 
     /* ── SKILLS ── */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
     }
 
     .skill-card {
-      background: var(--panel);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 14px 16px;
-      transition: border-color 0.2s, transform 0.2s;
+      border-radius: 8px;
+      padding: 16px 18px;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
     .skill-card:hover {
-      border-color: var(--green);
-      transform: translateY(-2px);
+      border-color: var(--subtle);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
     }
 
     .skill-header {
@@ -319,18 +361,19 @@
     }
 
     .skill-name {
-      font-size: 10px;
-      color: #ddd;
-      letter-spacing: 1px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
     }
 
     .skill-pct {
-      font-size: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
       color: var(--muted);
     }
 
     .skill-bar {
-      height: 4px;
+      height: 3px;
       background: var(--border);
       border-radius: 2px;
       overflow: hidden;
@@ -340,160 +383,271 @@
       height: 100%;
       border-radius: 2px;
       width: 0;
-      transition: width 1.4s cubic-bezier(.22,.68,0,1.2);
+      transition: width 1.2s cubic-bezier(.22,.68,0,1.1);
     }
 
-    .c-green { background: linear-gradient(90deg, #00aa55, var(--green)); }
-    .c-blue  { background: linear-gradient(90deg, #2266cc, var(--blue)); }
-    .c-pink  { background: linear-gradient(90deg, #aa2244, var(--pink)); }
-    .c-amber { background: linear-gradient(90deg, #cc8800, var(--amber)); }
+    .c-accent { background: var(--accent); }
+    .c-dark   { background: var(--text); }
+    .c-mid    { background: #666; }
 
-    /* ── GAMES ── */
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .game-card {
-      background: var(--panel);
+    /* ── GAMES SLIDESHOW ── */
+    .slideshow-outer {
+      position: relative;
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 14px;
       overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s;
+      height: min(460px, calc(100vh - 260px));
+      background: var(--bg);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 58% 1fr;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .slide-img-panel {
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .slide-img-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .slide.active .slide-img-panel img {
+      transform: scale(1);
+    }
+
+    .slide-info-panel {
+      padding: 36px 36px 70px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-left: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .slide-counter {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--subtle);
+      letter-spacing: 1px;
+    }
+
+    .slide-game-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .slide-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.6px;
+      line-height: 1.2;
+    }
+
+    .slide-desc {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.75;
+      flex: 1;
+    }
+
+    .slide-nav {
+      position: absolute;
+      bottom: 22px;
+      left: 58%;
+      right: 0;
+      padding: 0 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 2;
+    }
+
+    .slide-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
       cursor: pointer;
-    }
-
-    .game-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--blue);
-    }
-
-    .game-thumb {
-      height: 140px;
+      font-size: 14px;
+      color: var(--text);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 52px;
-      position: relative;
-      overflow: hidden;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      flex-shrink: 0;
     }
 
-    .game-thumb span { position: relative; z-index: 1; }
-
-    .game-thumb::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-    }
-
-    .gt-green { background: #06120a; }
-    .gt-green::before { background: radial-gradient(circle at 50% 60%, rgba(0,255,136,0.2), transparent 70%); }
-    .gt-red   { background: #120608; }
-    .gt-red::before   { background: radial-gradient(circle at 50% 60%, rgba(255,68,102,0.2), transparent 70%); }
-    .gt-blue  { background: #06080f; }
-    .gt-blue::before  { background: radial-gradient(circle at 50% 60%, rgba(68,170,255,0.2), transparent 70%); }
-    .gt-amber { background: #120f02; }
-    .gt-amber::before { background: radial-gradient(circle at 50% 60%, rgba(255,200,0,0.2), transparent 70%); }
-
-    .game-info { padding: 14px 16px; }
-
-    .game-title {
-      font-size: 13px;
-      font-weight: 700;
+    .slide-btn:hover {
+      background: var(--text);
       color: #fff;
-      margin-bottom: 4px;
+      border-color: var(--text);
     }
 
-    .game-meta {
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: 1px;
-      margin-bottom: 10px;
+    .slide-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
     }
 
-    .game-desc {
-      font-size: 11px;
-      color: var(--text);
-      line-height: 1.7;
-      margin-bottom: 12px;
+    .slide-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s, width 0.25s;
+    }
+
+    .slide-dot.active {
+      background: var(--accent);
+      width: 20px;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 640px) {
+      .slideshow-outer { height: auto; }
+      .slide {
+        position: relative;
+        grid-template-columns: 1fr;
+        opacity: 1;
+        display: none;
+        pointer-events: all;
+      }
+      .slide.active { display: grid; }
+      .slide-img-panel { height: 220px; }
+      .slide-nav { position: static; padding: 0; margin-top: 12px; }
+      .slide-info-panel { padding: 20px 20px 20px; }
     }
 
     .tags { display: flex; gap: 6px; flex-wrap: wrap; }
 
     .tag {
-      font-size: 9px;
-      padding: 3px 8px;
-      border-radius: 3px;
-      letter-spacing: 0.5px;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
     }
 
-    .tag-green { background: rgba(0,255,136,0.1); color: #00cc66; border: 1px solid rgba(0,255,136,0.25); }
-    .tag-blue  { background: rgba(68,170,255,0.1); color: #44aaff; border: 1px solid rgba(68,170,255,0.25); }
-    .tag-pink  { background: rgba(255,68,102,0.1); color: #ff4466; border: 1px solid rgba(255,68,102,0.25); }
-    .tag-amber { background: rgba(255,200,0,0.1); color: #ffcc00; border: 1px solid rgba(255,200,0,0.25); }
+    .tag-accent {
+      background: var(--accent-light);
+      color: var(--accent);
+      border-color: #c7d9ff;
+    }
 
     /* ── EXPERIENCE ── */
-    .timeline { position: relative; padding-left: 2rem; }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, var(--green), transparent);
-    }
+    .timeline { position: relative; }
 
     .timeline-item {
-      position: relative;
-      margin-bottom: 2.5rem;
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 2rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    .timeline-item::before {
-      content: '▶';
-      position: absolute;
-      left: -2.2rem;
-      top: 2px;
-      font-size: 10px;
-      color: var(--green);
+    .timeline-item:last-child { border-bottom: none; }
+
+    @media (max-width: 560px) {
+      .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
     }
 
     .tl-date {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
       color: var(--muted);
-      letter-spacing: 1px;
-      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+      padding-top: 3px;
     }
 
     .tl-role {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
-      color: #fff;
-      margin-bottom: 2px;
+      color: var(--text);
+      margin-bottom: 3px;
+      letter-spacing: -0.3px;
     }
 
     .tl-company {
-      font-size: 11px;
-      color: var(--blue);
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
       margin-bottom: 8px;
     }
 
     .tl-desc {
-      font-size: 12px;
-      color: var(--text);
-      line-height: 1.8;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.75;
     }
 
     /* ── CONTACT ── */
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
+      gap: 4rem;
       align-items: start;
     }
 
-    @media (max-width: 600px) { .contact-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 620px) { .contact-grid { grid-template-columns: 1fr; gap: 2rem; } }
+
+    .available-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #16a34a;
+      margin-bottom: 1.5rem;
+    }
+
+    .available-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: blink 1.8s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .contact-desc {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #555;
+    }
 
     .contact-links { list-style: none; }
 
@@ -503,63 +657,120 @@
       gap: 14px;
       padding: 14px 0;
       border-bottom: 1px solid var(--border);
-      transition: color 0.2s;
-      font-size: 13px;
+      transition: color 0.15s;
+      font-size: 14px;
+      font-weight: 500;
     }
 
-    .contact-link:hover { color: var(--green); }
+    .contact-link:hover { color: var(--accent); }
 
-    .contact-link svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+    .contact-link svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; color: var(--muted); }
 
-    .contact-link-label { color: var(--muted); font-size: 10px; display: block; margin-top: 2px; }
+    .contact-link:hover svg { color: var(--accent); }
 
-    .available-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0,255,136,0.08);
-      border: 1px solid rgba(0,255,136,0.25);
-      border-radius: 4px;
-      padding: 8px 14px;
-      font-size: 11px;
-      color: var(--green);
-      margin-bottom: 2rem;
-    }
-
-    .available-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: blink 1.5s ease-in-out infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .contact-desc {
-      font-size: 13px;
-      line-height: 2;
-      color: var(--text);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 2rem 0;
-      border-top: 1px solid var(--border);
-      font-family: 'Press Start 2P', monospace;
-      font-size: 8px;
+    .contact-link-label {
       color: var(--muted);
-      letter-spacing: 2px;
+      font-size: 11px;
+      font-weight: 400;
+      display: block;
+      margin-top: 1px;
     }
+
+    .footer-note {
+      margin-top: 2.5rem;
+      text-align: center;
+      font-size: 12px;
+      color: var(--subtle);
+    }
+
+    /* ── GAME MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal-box {
+      background: var(--bg);
+      border-radius: 16px;
+      width: min(580px, 92vw);
+      max-height: 88vh;
+      overflow-y: auto;
+      position: relative;
+      transform: scale(0.88) translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+    }
+    .modal-overlay.open .modal-box {
+      transform: scale(1) translateY(0);
+    }
+    .modal-img {
+      width: 100%;
+      display: block;
+      object-fit: contain;
+      background: var(--surface);
+      border-radius: 16px 16px 0 0;
+      max-height: 340px;
+    }
+    .modal-body {
+      padding: 22px 26px 28px;
+    }
+    .modal-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .modal-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .modal-desc {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #444;
+      margin-bottom: 16px;
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+      z-index: 1;
+    }
+    .modal-close:hover { background: rgba(0,0,0,0.75); }
 
     /* ── SCROLL ANIMATION ── */
     .reveal {
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translateY(16px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
     }
 
     .reveal.visible {
@@ -573,50 +784,40 @@
   <!-- NAV -->
   <nav>
     <div class="container">
-      <span class="nav-logo">▶ BHD.DEV</span>
+      <span class="nav-logo">BHD<span>.</span>DEV</span>
       <ul class="nav-links">
-        <li><a href="#about">ABOUT</a></li>
-        <li><a href="#skills">SKILLS</a></li>
-        <li><a href="#games">GAMES</a></li>
-        <li><a href="#experience">EXP</a></li>
-        <li><a href="#contact">CONTACT</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#games">Games</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
-    <div class="container hero-content">
-      <p class="hero-tag">▶ PLAYER ONE HAS ENTERED</p>
-      <h1 class="hero-name">BUI HOANG DUY</h1>
-      <p class="hero-title">GAME DEVELOPER · UNITY · C++ FRAMEWORKS</p>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-num">12+</span>
-          <span class="stat-label">GAMES SHIPPED</span>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <p class="hero-eyebrow">Game Developer · Ho Chi Minh City</p>
+          <h1 class="hero-name">Bui Hoang Duy</h1>
+          <p class="hero-title"><strong>Unity</strong> · SFML / SDL</p>
+          <a href="#games" class="hero-cta">View Games →</a>
+          <a href="cv.pdf" class="hero-cta-secondary">Download CV</a>
         </div>
-        <div class="stat">
-          <span class="stat-num">5YR</span>
-          <span class="stat-label">EXPERIENCE</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">50K</span>
-          <span class="stat-label">DOWNLOADS</span>
+        <div class="hero-avatar-wrap">
+          <img src="assets/avatar.jpg" alt="Bui Hoang Duy" class="hero-avatar" />
         </div>
       </div>
-      <a href="#games" class="hero-cta">
-        ▶ XEM GAMES
-      </a>
     </div>
   </div>
 
   <!-- ABOUT -->
   <section id="about">
     <div class="container reveal">
-      <p class="section-label">// 01</p>
-      <h2 class="section-title">ABOUT ME</h2>
+      <p class="section-label">01 · About</p>
+      <h2 class="section-title">A little about me</h2>
       <div class="about-grid">
         <div class="about-text">
           <p>
@@ -628,30 +829,30 @@
             giữa gameplay fun và visual đẹp.
           </p>
           <p>
-            Bên cạnh game dev, mình cũng thích làm game jam, nghiên cứu những công nghệ, kỹ thuật mới để luôn 
-            không ngừng phát triển kỹ năng phát triển game
+            Bên cạnh Unity, mình cũng có kinh nghiệm build game từ scratch với C++ và các framework
+            như SFML và SDL — tham gia game jam là cách mình không ngừng học hỏi và thử thách bản thân.
           </p>
         </div>
         <ul class="info-list">
           <li class="info-item">
-            <span class="info-key">LOCATION</span>
+            <span class="info-key">Location</span>
             <span class="info-val">Ho Chi Minh City 🇻🇳</span>
           </li>
           <li class="info-item">
-            <span class="info-key">SPECIALTY</span>
-            <span class="info-val">Unity / Mobile Game</span>
+            <span class="info-key">Specialty</span>
+            <span class="info-val">Unity · Mobile Game</span>
           </li>
           <li class="info-item">
-            <span class="info-key">LANGUAGES</span>
+            <span class="info-key">Languages</span>
             <span class="info-val">C#, C++</span>
           </li>
           <li class="info-item">
-            <span class="info-key">EDUCATION</span>
+            <span class="info-key">Education</span>
             <span class="info-val">HCMUS — CS 2021</span>
           </li>
           <li class="info-item">
             <span class="info-key">CV</span>
-            <span class="info-val"><a href="cv.pdf" style="color:var(--blue);">Download PDF ↓</a></span>
+            <span class="info-val"><a href="cv.pdf" style="color:var(--accent);">Download PDF ↓</a></span>
           </li>
         </ul>
       </div>
@@ -661,64 +862,64 @@
   <!-- SKILLS -->
   <section id="skills">
     <div class="container reveal">
-      <p class="section-label">// 02</p>
-      <h2 class="section-title">SKILLS & TOOLS</h2>
+      <p class="section-label">02 · Skills</p>
+      <h2 class="section-title">Skills &amp; Tools</h2>
       <div class="skills-grid">
         <div class="skill-card">
           <div class="skill-header">
-            <span class="skill-name">UNITY / C#</span>
+            <span class="skill-name">Unity / C#</span>
             <span class="skill-pct">92%</span>
           </div>
-          <div class="skill-bar"><div class="skill-fill c-green" data-w="92"></div></div>
+          <div class="skill-bar"><div class="skill-fill c-accent" data-w="92"></div></div>
         </div>
         <div class="skill-card">
           <div class="skill-header">
-            <span class="skill-name">UNREAL / C++</span>
-            <span class="skill-pct">75%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-blue" data-w="75"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">GODOT / GDSCRIPT</span>
-            <span class="skill-pct">80%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-amber" data-w="80"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">SHADER / HLSL</span>
-            <span class="skill-pct">65%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-pink" data-w="65"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">BLENDER 3D</span>
-            <span class="skill-pct">70%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-blue" data-w="70"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">GAME DESIGN</span>
-            <span class="skill-pct">88%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-green" data-w="88"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">PHOTOSHOP / ASEPRITE</span>
+            <span class="skill-name">C++ / SFML / SDL</span>
             <span class="skill-pct">78%</span>
           </div>
-          <div class="skill-bar"><div class="skill-fill c-amber" data-w="78"></div></div>
+          <div class="skill-bar"><div class="skill-fill c-dark" data-w="78"></div></div>
         </div>
         <div class="skill-card">
           <div class="skill-header">
-            <span class="skill-name">GIT / GITHUB</span>
+            <span class="skill-name">Shader / HLSL</span>
+            <span class="skill-pct">65%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-mid" data-w="65"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">Blender 3D</span>
+            <span class="skill-pct">70%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-mid" data-w="70"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">Game Design</span>
+            <span class="skill-pct">88%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-accent" data-w="88"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">Photoshop / Aseprite</span>
+            <span class="skill-pct">78%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-mid" data-w="78"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">Git / GitHub</span>
             <span class="skill-pct">90%</span>
           </div>
-          <div class="skill-bar"><div class="skill-fill c-green" data-w="90"></div></div>
+          <div class="skill-bar"><div class="skill-fill c-dark" data-w="90"></div></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header">
+            <span class="skill-name">UI / UX Design</span>
+            <span class="skill-pct">75%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill c-mid" data-w="75"></div></div>
         </div>
       </div>
     </div>
@@ -727,61 +928,94 @@
   <!-- GAMES -->
   <section id="games">
     <div class="container reveal">
-      <p class="section-label">// 03</p>
-      <h2 class="section-title">FEATURED GAMES</h2>
-      <div class="games-grid">
-        <div class="game-card">
-          <div class="game-thumb gt-green"><span>🌿</span></div>
-          <div class="game-info">
-            <p class="game-title">FOREST SPIRIT</p>
-            <p class="game-meta">2024 · UNITY · MOBILE</p>
-            <p class="game-desc">Puzzle game về một hồn ma rừng cần khôi phục sự cân bằng thiên nhiên. Top 10 itch.io tháng 3/2024.</p>
+      <p class="section-label">03 · Games</p>
+      <h2 class="section-title">Featured Games</h2>
+      <div class="slideshow-outer">
+
+        <!-- Slide 1 -->
+        <div class="slide active">
+          <div class="slide-img-panel">
+            <img src="assets/Yarn Fever.jpg" alt="Forest Spirit" />
+          </div>
+          <div class="slide-info-panel">
+            <p class="slide-counter">01 / 04</p>
+            <p class="slide-game-meta">2024 · Unity · Mobile</p>
+            <h3 class="slide-title">Forest Spirit</h3>
+            <p class="slide-desc">Puzzle game về một hồn ma rừng cần khôi phục sự cân bằng thiên nhiên. Top 10 itch.io tháng 3/2024.</p>
             <div class="tags">
-              <span class="tag tag-green">PUZZLE</span>
-              <span class="tag tag-amber">CASUAL</span>
-              <span class="tag tag-blue">MOBILE</span>
+              <span class="tag tag-accent">Puzzle</span>
+              <span class="tag">Casual</span>
+              <span class="tag">Mobile</span>
             </div>
           </div>
         </div>
-        <div class="game-card">
-          <div class="game-thumb gt-red"><span>⚔️</span></div>
-          <div class="game-info">
-            <p class="game-title">VOID RAIDERS</p>
-            <p class="game-meta">2023 · UNREAL · PC</p>
-            <p class="game-desc">Roguelike action game với combat system độc đáo và thế giới procedural được generate. 5K+ players.</p>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+          <div class="slide-img-panel">
+            <img src="assets/SFML.png" alt="Void Raiders" />
+          </div>
+          <div class="slide-info-panel">
+            <p class="slide-counter">02 / 04</p>
+            <p class="slide-game-meta">2023 · C++ / SFML · PC</p>
+            <h3 class="slide-title">Void Raiders</h3>
+            <p class="slide-desc">Roguelike action game với combat system độc đáo và thế giới procedural được generate. 5K+ players.</p>
             <div class="tags">
-              <span class="tag tag-pink">ACTION</span>
-              <span class="tag tag-blue">ROGUELIKE</span>
-              <span class="tag tag-amber">PC</span>
+              <span class="tag tag-accent">Action</span>
+              <span class="tag">Roguelike</span>
+              <span class="tag">PC</span>
             </div>
           </div>
         </div>
-        <div class="game-card">
-          <div class="game-thumb gt-blue"><span>🚀</span></div>
-          <div class="game-info">
-            <p class="game-title">STAR DRIFT</p>
-            <p class="game-meta">2023 · UNITY · PC</p>
-            <p class="game-desc">Racing game trong không gian với physics engine tự viết và 20+ track độc đáo. Được featured trên Steam.</p>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+          <div class="slide-img-panel">
+            <img src="assets/Color Crusher.png" alt="Star Drift" />
+          </div>
+          <div class="slide-info-panel">
+            <p class="slide-counter">03 / 04</p>
+            <p class="slide-game-meta">2023 · Unity · PC</p>
+            <h3 class="slide-title">Star Drift</h3>
+            <p class="slide-desc">Racing game trong không gian với physics engine tự viết và 20+ track độc đáo. Được featured trên Steam.</p>
             <div class="tags">
-              <span class="tag tag-blue">RACING</span>
-              <span class="tag tag-green">SCI-FI</span>
-              <span class="tag tag-amber">STEAM</span>
+              <span class="tag tag-accent">Racing</span>
+              <span class="tag">Sci-Fi</span>
+              <span class="tag">Steam</span>
             </div>
           </div>
         </div>
-        <div class="game-card">
-          <div class="game-thumb gt-amber"><span>🧩</span></div>
-          <div class="game-info">
-            <p class="game-title">MINDLOCK</p>
-            <p class="game-meta">2022 · GODOT · MOBILE</p>
-            <p class="game-desc">Puzzle game logic challenge với 100+ level handcrafted. 15K downloads trên Google Play và App Store.</p>
+
+        <!-- Slide 4 -->
+        <div class="slide">
+          <div class="slide-img-panel">
+            <img src="assets/MyCoffeeShop.jpg" alt="Mindlock" />
+          </div>
+          <div class="slide-info-panel">
+            <p class="slide-counter">04 / 04</p>
+            <p class="slide-game-meta">2022 · C++ / SDL · Mobile</p>
+            <h3 class="slide-title">Mindlock</h3>
+            <p class="slide-desc">Puzzle game logic challenge với 100+ level handcrafted. 15K downloads trên Google Play và App Store.</p>
             <div class="tags">
-              <span class="tag tag-amber">PUZZLE</span>
-              <span class="tag tag-green">INDIE</span>
-              <span class="tag tag-blue">CROSS-PLATFORM</span>
+              <span class="tag tag-accent">Puzzle</span>
+              <span class="tag">Indie</span>
+              <span class="tag">Cross-platform</span>
             </div>
           </div>
         </div>
+
+        <!-- Shared navigation -->
+        <div class="slide-nav">
+          <button class="slide-btn" id="slidePrev">←</button>
+          <div class="slide-dots">
+            <button class="slide-dot active" data-i="0"></button>
+            <button class="slide-dot" data-i="1"></button>
+            <button class="slide-dot" data-i="2"></button>
+            <button class="slide-dot" data-i="3"></button>
+          </div>
+          <button class="slide-btn" id="slideNext">→</button>
+        </div>
+
       </div>
     </div>
   </section>
@@ -789,26 +1023,32 @@
   <!-- EXPERIENCE -->
   <section id="experience">
     <div class="container reveal">
-      <p class="section-label">// 04</p>
-      <h2 class="section-title">EXPERIENCE</h2>
+      <p class="section-label">04 · Experience</p>
+      <h2 class="section-title">Work History</h2>
       <div class="timeline">
         <div class="timeline-item">
-          <p class="tl-date">2023 — PRESENT</p>
-          <p class="tl-role">Senior Game Developer</p>
-          <p class="tl-company">VNG Game Studios, HCM City</p>
-          <p class="tl-desc">Lead developer cho mobile game RPG với 500K MAU. Phụ trách architecture, performance optimization và hướng dẫn team 5 người.</p>
+          <p class="tl-date">2023 — Present</p>
+          <div>
+            <p class="tl-role">Senior Game Developer</p>
+            <p class="tl-company">VNG Game Studios, HCM City</p>
+            <p class="tl-desc">Lead developer cho mobile game RPG với 500K MAU. Phụ trách architecture, performance optimization và hướng dẫn team 5 người.</p>
+          </div>
         </div>
         <div class="timeline-item">
           <p class="tl-date">2021 — 2023</p>
-          <p class="tl-role">Game Developer</p>
-          <p class="tl-company">Sky Mavis (Axie Infinity), Remote</p>
-          <p class="tl-desc">Phát triển game mechanics và smart contract integration cho blockchain game. Unity frontend với WebGL build optimization.</p>
+          <div>
+            <p class="tl-role">Game Developer</p>
+            <p class="tl-company">Sky Mavis (Axie Infinity), Remote</p>
+            <p class="tl-desc">Phát triển game mechanics và smart contract integration cho blockchain game. Unity frontend với WebGL build optimization.</p>
+          </div>
         </div>
         <div class="timeline-item">
           <p class="tl-date">2019 — 2021</p>
-          <p class="tl-role">Junior Game Developer</p>
-          <p class="tl-company">Amanotes, HCM City</p>
-          <p class="tl-desc">Phát triển và maintain 3 music game trên mobile. Tập trung vào audio synchronization và UI/UX animation.</p>
+          <div>
+            <p class="tl-role">Junior Game Developer</p>
+            <p class="tl-company">Amanotes, HCM City</p>
+            <p class="tl-desc">Phát triển và maintain 3 music game trên mobile. Tập trung vào audio synchronization và UI/UX animation.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -817,13 +1057,13 @@
   <!-- CONTACT -->
   <section id="contact">
     <div class="container reveal">
-      <p class="section-label">// 05</p>
-      <h2 class="section-title">CONTACT</h2>
+      <p class="section-label">05 · Contact</p>
+      <h2 class="section-title">Get in Touch</h2>
       <div class="contact-grid">
         <div>
           <div class="available-badge">
             <div class="available-dot"></div>
-            Available for freelance & collab
+            Available for freelance &amp; collab
           </div>
           <p class="contact-desc">
             Mình luôn mở cửa với những dự án thú vị và cơ hội hợp tác.
@@ -861,30 +1101,113 @@
           </li>
         </ul>
       </div>
+      <p class="footer-note">© 2024 Bui Hoang Duy · Built with HTML/CSS · Hosted on GitHub Pages</p>
     </div>
   </section>
 
-  <footer>
-    <div class="container">
-      <p>© 2024 BUI HOANG DUY · BUILT WITH ❤ + HTML/CSS · HOSTED ON GITHUB PAGES</p>
+  <!-- GAME MODAL -->
+  <div class="modal-overlay" id="gameModal">
+    <div class="modal-box" id="modalBox">
+      <button class="modal-close" id="modalClose">✕</button>
+      <img class="modal-img" id="modalImg" src="" alt="" />
+      <div class="modal-body">
+        <p class="modal-meta" id="modalMeta"></p>
+        <h3 class="modal-title" id="modalTitle"></h3>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="tags" id="modalTags"></div>
+      </div>
     </div>
-  </footer>
+  </div>
 
   <script>
-    // Skill bars animate when visible
-    const observer = new IntersectionObserver((entries) => {
+    /* ── FULL-PAGE SCROLL ── */
+    const slides = [...document.querySelectorAll('.hero, section')];
+    let current = 0;
+    let locked = false;
+
+    function goTo(idx) {
+      if (idx < 0 || idx >= slides.length || locked) return;
+      locked = true;
+      current = idx;
+      document.documentElement.scrollTo({
+        top: slides[idx].offsetTop,
+        behavior: 'smooth'
+      });
+      setTimeout(() => { locked = false; }, 900);
+    }
+
+    // Mouse wheel
+    document.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      if (locked) return;
+      goTo(current + (e.deltaY > 0 ? 1 : -1));
+    }, { passive: false });
+
+    // Touch swipe
+    let touchY = 0;
+    document.addEventListener('touchstart', (e) => {
+      touchY = e.touches[0].clientY;
+    }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+      if (locked) return;
+      const diff = touchY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+    }, { passive: true });
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') goTo(current + 1);
+      if (e.key === 'ArrowUp'   || e.key === 'PageUp')   goTo(current - 1);
+    });
+
+    // Nav & anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href').slice(1);
+        const idx = slides.findIndex(s => s.id === id);
+        if (idx !== -1) { e.preventDefault(); goTo(idx); }
+      });
+    });
+
+    /* ── REVEAL ANIMATION ── */
+    const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          // animate skill bars inside this section
           entry.target.querySelectorAll('.skill-fill').forEach(bar => {
             bar.style.width = bar.dataset.w + '%';
           });
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.12 });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ── GAMES SLIDESHOW ── */
+    const slideEls = [...document.querySelectorAll('.slide')];
+    const slideDots = [...document.querySelectorAll('.slide-dot')];
+    let slideIdx = 0;
+
+    function goSlide(n) {
+      slideEls[slideIdx].classList.remove('active');
+      slideDots[slideIdx].classList.remove('active');
+      slideIdx = (n + slideEls.length) % slideEls.length;
+      slideEls[slideIdx].classList.add('active');
+      slideDots[slideIdx].classList.add('active');
+    }
+
+    document.getElementById('slidePrev').addEventListener('click', (e) => {
+      e.stopPropagation();
+      goSlide(slideIdx - 1);
+    });
+    document.getElementById('slideNext').addEventListener('click', (e) => {
+      e.stopPropagation();
+      goSlide(slideIdx + 1);
+    });
+    slideDots.forEach((d, i) => d.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goSlide(i);
+    }));
   </script>
 </body>
 </html>
