@@ -21,14 +21,14 @@
 
     /* ── THEME ── */
     :root {
-      --bg:       #ffffff;
-      --surface:  #f7f7f7;
-      --border:   #e8e8e8;
-      --text:     #1a1a1a;
-      --muted:    #888888;
-      --subtle:   #bbbbbb;
-      --accent:   #1a6cff;
-      --accent-light: #eff4ff;
+      --bg:       #0b1120;
+      --surface:  #131c2e;
+      --border:   #1e2d45;
+      --text:     #e8edf5;
+      --muted:    #6b7fa3;
+      --subtle:   #2e3f5c;
+      --accent:   #4d8ef0;
+      --accent-light: #0f2044;
       --nav-h:    56px;
     }
 
@@ -56,8 +56,8 @@
       left: 0;
       right: 0;
       z-index: 100;
-      background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(12px);
+      background: rgba(11,17,32,0.85);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
       padding: 1.1rem 0;
     }
@@ -99,10 +99,6 @@
       height: 100vh;
       display: flex;
       align-items: center;
-      background:
-        radial-gradient(ellipse at 15% 60%, rgba(219,234,254,0.75) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 15%, rgba(237,233,254,0.65) 0%, transparent 50%),
-        var(--bg);
     }
 
     .hero .container {
@@ -144,8 +140,8 @@
       height: 200px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #ffffff;
-      box-shadow: 0 0 0 1px var(--border), 0 16px 48px rgba(26,108,255,0.14);
+      border: 4px solid #1e2d45;
+      box-shadow: 0 0 0 1px var(--border), 0 16px 48px rgba(77,142,240,0.22);
       position: relative;
       z-index: 1;
       display: block;
@@ -218,7 +214,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--text);
+      background: linear-gradient(135deg, #4d8ef0, #6366f1);
       color: #fff;
       padding: 12px 24px;
       border-radius: 6px;
@@ -228,11 +224,13 @@
       transition: all 0.15s;
       opacity: 0;
       animation: fadeUp 0.5s ease 0.5s forwards;
+      box-shadow: 0 4px 20px rgba(77,142,240,0.30);
     }
 
     .hero-cta:hover {
-      background: var(--accent);
+      background: linear-gradient(135deg, #6ba3f5, #818cf8);
       transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(77,142,240,0.45);
     }
 
     .hero-cta-secondary {
@@ -305,7 +303,7 @@
     .about-text {
       font-size: 15px;
       line-height: 1.8;
-      color: #444;
+      color: #94a3b8;
     }
 
     .about-text p + p { margin-top: 1rem; }
@@ -466,7 +464,7 @@
 
     .slide-desc {
       font-size: 13px;
-      color: #555;
+      color: #7f91b0;
       line-height: 1.75;
       flex: 1;
     }
@@ -603,7 +601,7 @@
 
     .tl-desc {
       font-size: 13px;
-      color: #555;
+      color: #7f91b0;
       line-height: 1.75;
     }
 
@@ -621,20 +619,20 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
+      background: #0d2918;
+      border: 1px solid #14532d;
       border-radius: 100px;
       padding: 6px 14px;
       font-size: 12px;
       font-weight: 500;
-      color: #16a34a;
+      color: #4ade80;
       margin-bottom: 1.5rem;
     }
 
     .available-dot {
       width: 7px; height: 7px;
       border-radius: 50%;
-      background: #22c55e;
+      background: #4ade80;
       animation: blink 1.8s ease-in-out infinite;
     }
 
@@ -646,7 +644,7 @@
     .contact-desc {
       font-size: 15px;
       line-height: 1.8;
-      color: #555;
+      color: #7f91b0;
     }
 
     .contact-links { list-style: none; }
@@ -681,6 +679,82 @@
       text-align: center;
       font-size: 12px;
       color: var(--subtle);
+    }
+
+    /* ── ACHIEVEMENTS ── */
+    .achievement-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .achievement-img {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .achievement-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .achievement-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 24px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+
+    .achievement-badge {
+      font-size: 36px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .achievement-info { flex: 1; }
+
+    .achievement-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.3px;
+      margin-bottom: 3px;
+    }
+
+    .achievement-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .achievement-desc {
+      font-size: 13px;
+      color: #7f91b0;
+      line-height: 1.65;
+    }
+
+    .achievement-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1c1408;
+      border: 1px solid #78350f;
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fbbf24;
+      flex-shrink: 0;
     }
 
     /* ── GAME MODAL ── */
@@ -743,7 +817,7 @@
     .modal-desc {
       font-size: 14px;
       line-height: 1.75;
-      color: #444;
+      color: #94a3b8;
       margin-bottom: 16px;
     }
     .modal-close {
@@ -777,6 +851,63 @@
       opacity: 1;
       transform: none;
     }
+
+    /* ── SECTION BACKGROUNDS — dark aurora mesh ── */
+    .hero {
+      background:
+        radial-gradient(ellipse 90% 70% at 88% 8%,  rgba(77,142,240,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 60% at 8%  75%,  rgba(99,102,241,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 45% at 50% 110%, rgba(56,189,248,0.10) 0%, transparent 50%),
+        #0b1120;
+    }
+
+    #about {
+      background:
+        radial-gradient(ellipse 80% 65% at 95% 10%,  rgba(56,189,248,0.13) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 55% at 0%  90%,  rgba(99,102,241,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 35% at 45% 50%,  rgba(77,142,240,0.07) 0%, transparent 50%),
+        #0c1222;
+    }
+
+    #skills {
+      background:
+        radial-gradient(ellipse 75% 60% at 0%   45%,  rgba(99,102,241,0.15) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 100% 5%,   rgba(56,189,248,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 40% at 55%  100%, rgba(139,92,246,0.10) 0%, transparent 50%),
+        #0b1120;
+    }
+
+    #games {
+      background:
+        radial-gradient(ellipse 80% 60% at 15%  5%,  rgba(56,189,248,0.13) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 92%  88%, rgba(139,92,246,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 35% at 50%  50%, rgba(77,142,240,0.08) 0%, transparent 50%),
+        #0c1222;
+    }
+
+    #experience {
+      background:
+        radial-gradient(ellipse 75% 60% at 5%   25%,  rgba(56,189,248,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 98%  75%,  rgba(77,142,240,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50%  0%,   rgba(99,102,241,0.09) 0%, transparent 50%),
+        #0b1120;
+    }
+
+    #achievements {
+      background:
+        radial-gradient(ellipse 85% 65% at 82%  15%,  rgba(77,142,240,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 55% at 8%   82%,  rgba(56,189,248,0.13) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 40% at 40%  55%,  rgba(99,102,241,0.09) 0%, transparent 50%),
+        #0c1222;
+    }
+
+    #contact {
+      background:
+        radial-gradient(ellipse 70% 60% at 18%  18%,  rgba(99,102,241,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 88%  82%,  rgba(56,189,248,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 40% at 55%  5%,   rgba(77,142,240,0.09) 0%, transparent 50%),
+        #0b1120;
+    }
   </style>
 </head>
 <body>
@@ -790,6 +921,7 @@
         <li><a href="#skills">Skills</a></li>
         <li><a href="#games">Games</a></li>
         <li><a href="#experience">Experience</a></li>
+        <li><a href="#achievements">Achievements</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -935,16 +1067,17 @@
         <!-- Slide 1 -->
         <div class="slide active">
           <div class="slide-img-panel">
-            <img src="assets/Yarn Fever.jpg" alt="Forest Spirit" />
+            <img src="assets/Color Crusher.png" alt="Color Crusher" />
           </div>
           <div class="slide-info-panel">
             <p class="slide-counter">01 / 04</p>
-            <p class="slide-game-meta">2024 · Unity · Mobile</p>
-            <h3 class="slide-title">Forest Spirit</h3>
-            <p class="slide-desc">Puzzle game về một hồn ma rừng cần khôi phục sự cân bằng thiên nhiên. Top 10 itch.io tháng 3/2024.</p>
+            <p class="slide-game-meta">2026 · Unity · Mobile</p>
+            <h3 class="slide-title">Color Crusher</h3>
+            <p class="slide-desc">Chạm và phá vỡ các khối trên bàn chơi để thu thập vật phẩm, hoàn thành thanh tiến độ và vượt qua hàng trăm màn chơi đầy thử thách.
+Sử dụng chiến thuật hợp lý, tạo các chuỗi phá hủy mãn nhãn và mở khóa những màn chơi mới với độ khó ngày càng tăng. Top 2 Voodoo Gamejam</p>
             <div class="tags">
               <span class="tag tag-accent">Puzzle</span>
-              <span class="tag">Casual</span>
+              <span class="tag">Destruction</span>
               <span class="tag">Mobile</span>
             </div>
           </div>
@@ -953,17 +1086,17 @@
         <!-- Slide 2 -->
         <div class="slide">
           <div class="slide-img-panel">
-            <img src="assets/SFML.png" alt="Void Raiders" />
+            <img src="assets/Yarn Fever.jpg" alt="Yarn Fever" />
           </div>
           <div class="slide-info-panel">
             <p class="slide-counter">02 / 04</p>
-            <p class="slide-game-meta">2023 · C++ / SFML · PC</p>
-            <h3 class="slide-title">Void Raiders</h3>
-            <p class="slide-desc">Roguelike action game với combat system độc đáo và thế giới procedural được generate. 5K+ players.</p>
+            <p class="slide-game-meta">2025 · Unity · Mobile</p>
+            <h3 class="slide-title">Yarn Fever</h3>
+            <p class="slide-desc">Mobile Puzzle game về gỡ các sợi len nhiều màu từ những vật thể đan móc và sắp xếp chúng vào đúng ô màu tương ứng.
+Gameplay kết hợp giữa chiến thuật quản lý không gian và cảm giác ASMR thỏa mãn, với độ khó tăng dần qua hàng trăm màn chơi.</p>
             <div class="tags">
-              <span class="tag tag-accent">Action</span>
-              <span class="tag">Roguelike</span>
-              <span class="tag">PC</span>
+              <span class="tag tag-accent">Puzzle</span>
+              <span class="tag">Mobile</span>
             </div>
           </div>
         </div>
@@ -971,17 +1104,18 @@
         <!-- Slide 3 -->
         <div class="slide">
           <div class="slide-img-panel">
-            <img src="assets/Color Crusher.png" alt="Star Drift" />
+            <img src="assets/MyCoffeeShop.jpg" alt="My Coffee Shop" />
           </div>
           <div class="slide-info-panel">
             <p class="slide-counter">03 / 04</p>
-            <p class="slide-game-meta">2023 · Unity · PC</p>
-            <h3 class="slide-title">Star Drift</h3>
-            <p class="slide-desc">Racing game trong không gian với physics engine tự viết và 20+ track độc đáo. Được featured trên Steam.</p>
+            <p class="slide-game-meta">2023 · Unity · Mobile</p>
+            <h3 class="slide-title">My Coffee Shop</h3>
+            <p class="slide-desc">Điều hành nhà hàng động vật đáng yêu của riêng mình, phục vụ những vị khách dễ thương và khám phá các câu chuyện ấm áp đầy bất ngờ.
+Nâng cấp thực đơn, trang trí nhà hàng, và phát triển doanh nghiệp của bạn thành điểm đến nổi tiếng nhất trong thế giới động vật.</p>
             <div class="tags">
-              <span class="tag tag-accent">Racing</span>
-              <span class="tag">Sci-Fi</span>
-              <span class="tag">Steam</span>
+              <span class="tag tag-accent">Casual</span>
+              <span class="tag">Management</span>
+              <span class="tag">Mobile</span>
             </div>
           </div>
         </div>
@@ -989,17 +1123,17 @@
         <!-- Slide 4 -->
         <div class="slide">
           <div class="slide-img-panel">
-            <img src="assets/MyCoffeeShop.jpg" alt="Mindlock" />
+            <img src="assets/SFML.png" alt="Void Raiders" />
           </div>
           <div class="slide-info-panel">
             <p class="slide-counter">04 / 04</p>
-            <p class="slide-game-meta">2022 · C++ / SDL · Mobile</p>
-            <h3 class="slide-title">Mindlock</h3>
-            <p class="slide-desc">Puzzle game logic challenge với 100+ level handcrafted. 15K downloads trên Google Play và App Store.</p>
+            <p class="slide-game-meta">2022 · C++ / SFML · PC</p>
+            <h3 class="slide-title">Void Raiders</h3>
+            <p class="slide-desc">Game bắn máy bay Bullet Hell hành động tốc độ cao, nơi người chơi điều khiển chiến đấu cơ tiêu diệt hàng loạt kẻ địch và né tránh những cơn mưa đạn dày đặc.</p>
             <div class="tags">
-              <span class="tag tag-accent">Puzzle</span>
-              <span class="tag">Indie</span>
-              <span class="tag">Cross-platform</span>
+              <span class="tag tag-accent">Action</span>
+              <span class="tag">Shooter</span>
+              <span class="tag">PC</span>
             </div>
           </div>
         </div>
@@ -1054,10 +1188,32 @@
     </div>
   </section>
 
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="container reveal">
+      <p class="section-label">05 · Achievements</p>
+      <h2 class="section-title">Achievements</h2>
+      <div class="achievement-wrap">
+        <div class="achievement-img">
+          <img src="assets/VooDoo.jpg" alt="Voodoo Game Jam — 2nd Place" />
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-badge">🥈</div>
+          <div class="achievement-info">
+            <p class="achievement-title">2nd Place — Voodoo Game Jam</p>
+            <p class="achievement-meta">2026 · Color Crusher · Unity · Mobile</p>
+            <p class="achievement-desc">Đạt hạng 2 trong cuộc thi Voodoo Game Jam với tựa game Color Crusher — puzzle game phá khối độc đáo được đánh giá cao về gameplay loop và visual feedback.</p>
+          </div>
+          <div class="achievement-pill">🏆 Top 2</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section id="contact">
     <div class="container reveal">
-      <p class="section-label">05 · Contact</p>
+      <p class="section-label">06 · Contact</p>
       <h2 class="section-title">Get in Touch</h2>
       <div class="contact-grid">
         <div>
@@ -1072,31 +1228,25 @@
         </div>
         <ul class="contact-links">
           <li>
-            <a href="https://github.com/yourusername" class="contact-link" target="_blank">
+            <a href="https://github.com/duybuihoang" class="contact-link" target="_blank">
               <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
               GitHub
-              <span class="contact-link-label">github.com/yourusername</span>
+              <span class="contact-link-label">github.com/duybuihoang</span>
             </a>
           </li>
+
           <li>
-            <a href="https://yourusername.itch.io" class="contact-link" target="_blank">
-              <svg viewBox="0 0 24 24"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v1.03c0 1.303 1.22 2.45 2.325 2.45 1.33 0 2.436-1.102 2.436-2.41 0 1.308 1.07 2.41 2.4 2.41 1.328 0 2.362-1.102 2.362-2.41 0 1.308 1.107 2.41 2.436 2.41h.024c1.328 0 2.435-1.102 2.435-2.41 0 1.308 1.034 2.41 2.362 2.41 1.33 0 2.4-1.102 2.4-2.41 0 1.308 1.106 2.41 2.435 2.41C22.78 8.43 24 7.282 24 5.98V4.95c-.02-.622-2.08-2.99-3.13-3.612C19.154.53 4.846.53 3.13 1.338zM6.9 9.77a3.38 3.38 0 01-.88-.117C5.908 11.5 5.855 12.98 5.855 14.95v1.008c0 3.073 0 5.972 6.145 5.972s6.145-2.9 6.145-5.972V14.95c0-1.968-.053-3.448-.165-5.297a3.38 3.38 0 01-.88.117c-.92 0-1.763-.343-2.4-.9a3.385 3.385 0 01-2.36.954h-.025c-.9 0-1.72-.35-2.36-.955a3.385 3.385 0 01-2.4.9zm1.44 3.625h7.32s.22 4.65-3.66 4.65-3.66-4.65-3.66-4.65z"/></svg>
-              itch.io
-              <span class="contact-link-label">yourusername.itch.io</span>
-            </a>
-          </li>
-          <li>
-            <a href="mailto:hello@yourdomain.com" class="contact-link">
+            <a href="mailto:duybuihoang2210@gmail.com" class="contact-link">
               <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
               Email
-              <span class="contact-link-label">hello@yourdomain.com</span>
+              <span class="contact-link-label">duybuihoang2210@gmail.com</span>
             </a>
           </li>
           <li>
-            <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank">
+            <a href="https://www.linkedin.com/in/duybui2210/" class="contact-link" target="_blank">
               <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
               LinkedIn
-              <span class="contact-link-label">linkedin.com/in/yourprofile</span>
+              <span class="contact-link-label">linkedin.com/in/duybui2210</span>
             </a>
           </li>
         </ul>
@@ -1120,52 +1270,67 @@
   </div>
 
   <script>
-    /* ── FULL-PAGE SCROLL ── */
-    const slides = [...document.querySelectorAll('.hero, section')];
-    let current = 0;
-    let locked = false;
+    /* ── SCROLL SNAP (debounced 750ms) ── */
+    const sections = [...document.querySelectorAll('.hero, section')];
+    let snapTimer = null;
+    let isSnapping = false;
 
-    function goTo(idx) {
-      if (idx < 0 || idx >= slides.length || locked) return;
-      locked = true;
-      current = idx;
-      document.documentElement.scrollTo({
-        top: slides[idx].offsetTop,
-        behavior: 'smooth'
-      });
-      setTimeout(() => { locked = false; }, 900);
+    function dominantSection() {
+      const vh = window.innerHeight;
+      let best = null, bestVis = 0;
+      for (const sec of sections) {
+        const r = sec.getBoundingClientRect();
+        const vis = Math.max(0, Math.min(vh, r.bottom) - Math.max(0, r.top));
+        if (vis > bestVis) { bestVis = vis; best = sec; }
+      }
+      return best;
     }
 
-    // Mouse wheel
-    document.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      if (locked) return;
-      goTo(current + (e.deltaY > 0 ? 1 : -1));
-    }, { passive: false });
+    function snapNow() {
+      const target = dominantSection();
+      if (!target) return;
+      isSnapping = true;
+      target.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => { isSnapping = false; }, 900);
+    }
 
-    // Touch swipe
-    let touchY = 0;
-    document.addEventListener('touchstart', (e) => {
-      touchY = e.touches[0].clientY;
-    }, { passive: true });
-    document.addEventListener('touchend', (e) => {
-      if (locked) return;
-      const diff = touchY - e.changedTouches[0].clientY;
-      if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
-    }, { passive: true });
+    function scheduleSnap() {
+      if (isSnapping) return;
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(snapNow, 750);
+    }
 
-    // Keyboard
+    // Mouse wheel — scroll freely, snap after idle
+    document.addEventListener('wheel', scheduleSnap, { passive: true });
+
+    // Touch
+    document.addEventListener('touchmove', scheduleSnap, { passive: true });
+
+    // Keyboard — instant snap to next/prev
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown' || e.key === 'PageDown') goTo(current + 1);
-      if (e.key === 'ArrowUp'   || e.key === 'PageUp')   goTo(current - 1);
+      if (!['ArrowDown','ArrowUp','PageDown','PageUp'].includes(e.key)) return;
+      const cur = dominantSection();
+      const idx = sections.indexOf(cur);
+      const next = e.key === 'ArrowDown' || e.key === 'PageDown' ? idx + 1 : idx - 1;
+      if (next < 0 || next >= sections.length) return;
+      clearTimeout(snapTimer);
+      isSnapping = true;
+      sections[next].scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => { isSnapping = false; }, 900);
     });
 
     // Nav & anchor links
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', (e) => {
         const id = a.getAttribute('href').slice(1);
-        const idx = slides.findIndex(s => s.id === id);
-        if (idx !== -1) { e.preventDefault(); goTo(idx); }
+        const target = sections.find(s => s.id === id);
+        if (target) {
+          e.preventDefault();
+          clearTimeout(snapTimer);
+          isSnapping = true;
+          target.scrollIntoView({ behavior: 'smooth' });
+          setTimeout(() => { isSnapping = false; }, 900);
+        }
       });
     });
 
