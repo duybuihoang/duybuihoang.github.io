@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yarn Fever — Bui Hoang Duy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <button class="lightbox-btn lightbox-prev" id="lightboxPrev">←</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+    <button class="lightbox-btn lightbox-next" id="lightboxNext">→</button>
+    <span class="lightbox-counter" id="lightboxCounter"></span>
+  </div>
+
+  <nav>
+    <div class="container">
+      <a href="../index.html" class="nav-logo">BHD<span>.</span>DEV</a>
+      <a href="../index.html#games" class="nav-back">← All Projects</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <span class="project-badge">[ PROJECT_DATA ]</span>
+      <h1 class="project-title">Yarn Fever</h1>
+      <p class="project-subtitle">Tenefic Games — Zlab Studio · 2025 · Mobile (iOS / Android)</p>
+
+      <hr class="project-hr" />
+
+      <div class="project-body">
+        <div>
+          <p class="section-label">OVERVIEW</p>
+          <p class="project-overview">A mobile puzzle game about untangling colorful yarn strands from crocheted objects and sorting them into matching color slots. Spatial management strategy meets satisfying ASMR feedback, with progressively harder puzzles across hundreds of levels.</p>
+        </div>
+        <div>
+          <div class="sidebar-block">
+            <p class="sidebar-label">TIMELINE</p>
+            <p class="sidebar-value">2025 — 2026</p>
+          </div>
+          <div class="sidebar-block">
+            <p class="sidebar-label">PLATFORM</p>
+            <p class="sidebar-value">Mobile (iOS / Android)</p>
+          </div>
+          <div class="sidebar-block">
+            <p class="sidebar-label">TECHNOLOGY</p>
+            <div class="tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">Mobile</span>
+              <span class="tag">Puzzle</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="project-hr" />
+
+      <p class="section-label">SCREENSHOTS</p>
+      <div class="media-grid">
+        <img src="../assets/Yarn Fever/Yarn.jpg" alt="Yarn Fever" />
+        <img src="../assets/Yarn Fever/Yarn2.jpg" alt="Yarn Fever" />
+        <img src="../assets/Yarn Fever/Yarn 3.jpg" alt="Yarn Fever" />
+        <img src="../assets/Yarn Fever/Yarn 4.jpg" alt="Yarn Fever" />
+        <img src="../assets/Yarn Fever/Yarn 5.jpg" alt="Yarn Fever" />
+        <img src="../assets/Yarn Fever/Yarn 6.jpg" alt="Yarn Fever" />
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const max = document.body.scrollHeight - window.innerHeight;
+      progressBar.style.width = (window.scrollY / max * 100) + '%';
+    }, { passive: true });
+
+    const lbImages = [...document.querySelectorAll('.media-grid img')];
+    let lbIdx = 0;
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCounter = document.getElementById('lightboxCounter');
+
+    function openLb(idx) {
+      lbIdx = idx;
+      lbImg.src = lbImages[lbIdx].src;
+      lbCounter.textContent = `${lbIdx + 1} / ${lbImages.length}`;
+      lb.classList.add('open');
+    }
+    function setLb(idx) {
+      lbIdx = (idx + lbImages.length) % lbImages.length;
+      lbImg.classList.add('switching');
+      setTimeout(() => {
+        lbImg.src = lbImages[lbIdx].src;
+        lbCounter.textContent = `${lbIdx + 1} / ${lbImages.length}`;
+        lbImg.classList.remove('switching');
+      }, 120);
+    }
+    function closeLb() { lb.classList.remove('open'); }
+
+    lbImages.forEach((img, i) => img.addEventListener('click', () => openLb(i)));
+    document.getElementById('lightboxPrev').addEventListener('click', () => setLb(lbIdx - 1));
+    document.getElementById('lightboxNext').addEventListener('click', () => setLb(lbIdx + 1));
+    document.getElementById('lightboxClose').addEventListener('click', closeLb);
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'ArrowLeft')  setLb(lbIdx - 1);
+      if (e.key === 'ArrowRight') setLb(lbIdx + 1);
+      if (e.key === 'Escape')     closeLb();
+    });
+  </script>
+</body>
+</html>

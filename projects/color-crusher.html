@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Crusher — Bui Hoang Duy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <nav>
+    <div class="container">
+      <a href="../index.html" class="nav-logo">BHD<span>.</span>DEV</a>
+      <a href="../index.html#games" class="nav-back">← All Projects</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <span class="project-badge">[ PROJECT_DATA ]</span>
+      <h1 class="project-title">Color Crusher</h1>
+      <p class="project-subtitle">MGIF · 2026 · Mobile (iOS / Android)</p>
+
+      <hr class="project-hr" />
+
+      <div class="project-body">
+        <div>
+          <p class="section-label">OVERVIEW</p>
+          <p class="project-overview">Tap and smash blocks to collect items, fill the progress bar, and conquer hundreds of challenging levels. Chain strategic combos for satisfying destruction sequences and unlock new stages with escalating difficulty. Runner-up at Voodoo Game Jam 2026.</p>
+        </div>
+        <div>
+          <div class="sidebar-block">
+            <p class="sidebar-label">TIMELINE</p>
+            <p class="sidebar-value">2025 — Present</p>
+          </div>
+          <div class="sidebar-block">
+            <p class="sidebar-label">PLATFORM</p>
+            <p class="sidebar-value">Mobile (iOS / Android)</p>
+          </div>
+          <div class="sidebar-block">
+            <p class="sidebar-label">TECHNOLOGY</p>
+            <div class="tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">Mobile</span>
+              <span class="tag">Hyper-casual</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="project-hr" />
+
+      <p class="section-label">GAMEPLAY</p>
+      <div class="media-grid">
+        <video src="../assets/Color Crusher/zlab_tenefic_color_crusher_level1.webm" autoplay loop muted playsinline></video>
+        <video src="../assets/Color Crusher/zlab_tenefic_color_crusher_level2_win.webm" autoplay loop muted playsinline></video>
+        <video src="../assets/Color Crusher/zlab_tenefic_color_crusher_level3_fail.webm" autoplay loop muted playsinline></video>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const max = document.body.scrollHeight - window.innerHeight;
+      progressBar.style.width = (window.scrollY / max * 100) + '%';
+    }, { passive: true });
+  </script>
+</body>
+</html>

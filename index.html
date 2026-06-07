@@ -7,32 +7,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    /* ── RESET ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-y: scroll; height: 100%; scroll-behavior: smooth; }
+    body { overflow-x: hidden; }
 
-    html {
-      overflow-y: scroll;
-      height: 100%;
-    }
-
-    body {
-      overflow-x: hidden;
-    }
-
-    /* ── THEME ── */
     :root {
-      --bg:       #0b1120;
-      --surface:  #131c2e;
-      --border:   #1e2d45;
-      --text:     #e8edf5;
-      --muted:    #6b7fa3;
-      --subtle:   #2e3f5c;
-      --accent:   #4d8ef0;
+      --bg:           #0b1120;
+      --surface:      #131c2e;
+      --border:       #1e2d45;
+      --text:         #e8edf5;
+      --muted:        #6b7fa3;
+      --subtle:       #2e3f5c;
+      --accent:       #4d8ef0;
       --accent-light: #0f2044;
-      --nav-h:    56px;
+      --nav-h:        56px;
     }
 
-    /* ── BASE ── */
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
@@ -42,887 +32,809 @@
 
     a { color: inherit; text-decoration: none; }
 
-    /* ── LAYOUT ── */
     .container {
-      max-width: 840px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 0 2rem;
+      padding: 0 2.5rem;
+    }
+
+    /* ── SCROLL PROGRESS ── */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #a78bfa, #60a5fa);
+      z-index: 300;
+      transition: width 0.08s linear;
     }
 
     /* ── NAV ── */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(11,17,32,0.85);
-      backdrop-filter: blur(14px);
+      background: rgba(11,17,32,0.88);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       padding: 1.1rem 0;
     }
 
-    nav .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; }
 
     .nav-logo {
       font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      letter-spacing: 0.5px;
+      font-size: 13px; font-weight: 500;
+      color: var(--text); letter-spacing: 0.5px;
     }
-
     .nav-logo span { color: var(--accent); }
 
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
 
     .nav-links a {
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 500;
-      letter-spacing: 0.2px;
+      font-size: 13px; color: var(--muted);
+      font-weight: 500; letter-spacing: 0.2px;
       transition: color 0.15s;
+      position: relative; padding-bottom: 2px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; left: 0; bottom: -2px;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.22s ease;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── KEYFRAMES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .nav-links a:hover { color: var(--text); }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+
+    @keyframes gradientMove {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes ringRotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    @keyframes ringRotateRev {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(-360deg); }
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0   rgba(77,142,240,0.35); }
+      50%       { box-shadow: 0 0 0 10px rgba(77,142,240,0); }
+    }
+
+    @keyframes slideLeft {
+      from { opacity: 0; transform: translateX(-24px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
 
     /* ── HERO ── */
     .hero {
       height: 100vh;
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
+      background:
+        radial-gradient(ellipse 90% 70% at 88%  8%,  rgba(77,142,240,0.20) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 60% at 8%   75%,  rgba(99,102,241,0.16) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 45% at 50% 110%,  rgba(56,189,248,0.11) 0%, transparent 50%),
+        #0b1120;
     }
-
-    .hero .container {
-      padding-top: var(--nav-h);
-    }
+    .hero .container { padding-top: var(--nav-h); }
 
     .hero-inner {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 4rem;
-      align-items: center;
+      gap: 8rem; align-items: center;
+      width: 100%;
+      min-height: calc(100vh - var(--nav-h));
     }
-
     @media (max-width: 640px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .hero-avatar-wrap { order: -1; }
     }
 
+    /* avatar */
     .hero-avatar-wrap {
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
+      animation: float 6s ease-in-out 1s infinite;
     }
-
-    /* decorative ring */
     .hero-avatar-wrap::before {
       content: '';
-      position: absolute;
-      inset: -10px;
+      position: absolute; inset: -16px;
       border-radius: 50%;
-      background: conic-gradient(from 180deg, var(--accent) 0%, #a78bfa 40%, #60a5fa 70%, var(--accent) 100%);
-      opacity: 0.18;
+      background: conic-gradient(from 0deg, var(--accent) 0%, #a78bfa 35%, #60a5fa 65%, var(--accent) 100%);
+      opacity: 0.28;
+      animation: ringRotate 8s linear infinite;
     }
-
+    .hero-avatar-wrap::after {
+      content: '';
+      position: absolute; inset: -6px;
+      border-radius: 50%;
+      background: conic-gradient(from 180deg, transparent 55%, rgba(77,142,240,0.55) 75%, transparent 100%);
+      animation: ringRotateRev 5s linear infinite;
+    }
     .hero-avatar {
-      width: 200px;
-      height: 200px;
+      width: 320px; height: 320px;
       border-radius: 50%;
       object-fit: cover;
       border: 4px solid #1e2d45;
-      box-shadow: 0 0 0 1px var(--border), 0 16px 48px rgba(77,142,240,0.22);
-      position: relative;
-      z-index: 1;
+      box-shadow: 0 0 0 1px var(--border), 0 20px 60px rgba(77,142,240,0.28);
+      position: relative; z-index: 1;
       display: block;
       opacity: 0;
       animation: fadeUp 0.5s ease 0.25s forwards;
     }
 
+    /* hero text */
     .hero-eyebrow {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--accent);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
+      font-size: 12px; color: var(--accent);
+      letter-spacing: 2.5px; text-transform: uppercase;
+      margin-bottom: 1.4rem;
       opacity: 0;
       animation: fadeUp 0.5s ease 0.1s forwards;
     }
 
     .hero-name {
-      font-size: clamp(36px, 6vw, 60px);
+      font-size: clamp(46px, 7.5vw, 82px);
       font-weight: 700;
-      color: var(--text);
-      line-height: 1.1;
-      letter-spacing: -1.5px;
+      line-height: 1.15; letter-spacing: -2.5px;
+      padding-bottom: 0.08em;
       margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeUp 0.5s ease 0.2s forwards;
+      background: linear-gradient(120deg, #e8edf5 0%, #7eb3ff 30%, #a78bfa 60%, #e8edf5 100%);
+      background-size: 280% 280%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeUp 0.5s ease 0.2s forwards, gradientMove 7s ease 0.7s infinite;
     }
 
     .hero-title {
-      font-size: 18px;
-      font-weight: 400;
-      color: var(--muted);
-      margin-bottom: 2.5rem;
+      font-size: 19px; font-weight: 400;
+      color: var(--muted); margin-bottom: 2.5rem;
       letter-spacing: -0.2px;
       opacity: 0;
       animation: fadeUp 0.5s ease 0.3s forwards;
     }
-
     .hero-title strong { color: var(--text); font-weight: 600; }
 
+    .hero-bio {
+      font-size: 20px; line-height: 1.85;
+      color: #94a3b8; margin-bottom: 1.6rem;
+      max-width: 500px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.35s forwards;
+    }
+
+    .hero-info-row {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.42s forwards;
+    }
+    .hero-chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 12px; font-weight: 500; color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 5px 13px; border-radius: 100px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .hero-chip:hover { border-color: var(--accent); color: var(--text); }
+    .hero-chip-accent { color: var(--accent); border-color: rgba(77,142,240,0.3); background: var(--accent-light); }
+    .hero-chip-accent:hover { background: rgba(77,142,240,0.15); }
+    .chip-key {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; color: var(--subtle);
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    /* stats */
     .hero-stats {
-      display: flex;
-      gap: 3rem;
-      margin-bottom: 3rem;
-      padding-bottom: 3rem;
+      display: flex; gap: 3rem;
+      margin-bottom: 3rem; padding-bottom: 3rem;
       border-bottom: 1px solid var(--border);
       opacity: 0;
-      animation: fadeUp 0.5s ease 0.4s forwards;
-    }
-
-    .stat-num {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -1px;
-      display: block;
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
-      letter-spacing: 0.2px;
-    }
-
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, #4d8ef0, #6366f1);
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-      transition: all 0.15s;
-      opacity: 0;
       animation: fadeUp 0.5s ease 0.5s forwards;
-      box-shadow: 0 4px 20px rgba(77,142,240,0.30);
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-size: 42px; font-weight: 700;
+      color: var(--text); letter-spacing: -2px;
+      display: block; line-height: 1; margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 12px; color: var(--muted);
+      font-weight: 500; letter-spacing: 0.3px;
     }
 
+    /* cta buttons */
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #4d8ef0, #6366f1);
+      color: #fff; padding: 14px 28px;
+      border-radius: 8px; font-size: 15px; font-weight: 600;
+      letter-spacing: -0.2px;
+      transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.6s forwards;
+      box-shadow: 0 4px 24px rgba(77,142,240,0.38);
+    }
     .hero-cta:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 32px rgba(77,142,240,0.52);
       background: linear-gradient(135deg, #6ba3f5, #818cf8);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 24px rgba(77,142,240,0.45);
     }
 
     .hero-cta-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-flex; align-items: center; gap: 8px;
       border: 1px solid var(--border);
-      color: var(--text);
-      padding: 12px 24px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.15s;
+      color: var(--text); padding: 14px 28px;
+      border-radius: 8px; font-size: 15px; font-weight: 500;
+      transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
       margin-left: 12px;
       opacity: 0;
-      animation: fadeUp 0.5s ease 0.55s forwards;
+      animation: fadeUp 0.5s ease 0.65s forwards;
     }
-
     .hero-cta-secondary:hover {
-      border-color: var(--text);
+      border-color: var(--accent);
       background: var(--surface);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(77,142,240,0.18);
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── SECTIONS — each fills the viewport ── */
+    /* ── SECTIONS ── */
     section {
-      height: 100vh;
-      overflow-y: auto;
-      display: flex;
-      align-items: center;
+      min-height: 100vh;
+      display: flex; align-items: center;
     }
-
     section .container {
-      padding-top: calc(var(--nav-h) + 2rem);
-      padding-bottom: 2rem;
-      width: 100%;
+      padding-top: calc(var(--nav-h) + 3.5rem);
+      padding-bottom: 3.5rem; width: 100%;
     }
 
     .section-label {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--accent);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
+      font-size: 11px; color: var(--accent);
+      letter-spacing: 2.5px; text-transform: uppercase;
+      margin-bottom: 0.6rem;
     }
-
     .section-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.8px;
-      margin-bottom: 2rem;
+      font-size: 46px; font-weight: 700;
+      color: var(--text); letter-spacing: -1.5px;
+      margin-bottom: 3rem;
     }
 
-    /* ── ABOUT ── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
-
-    @media (max-width: 620px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
-
-    .about-text {
-      font-size: 15px;
-      line-height: 1.8;
-      color: #94a3b8;
-    }
-
-    .about-text p + p { margin-top: 1rem; }
-
-    .info-list { list-style: none; }
-
-    .info-item {
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      padding: 11px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-    }
-
-    .info-key {
-      color: var(--muted);
-      width: 90px;
-      flex-shrink: 0;
-      font-weight: 500;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .info-val { color: var(--text); font-weight: 500; }
+    .reveal.visible { opacity: 1; transform: none; }
 
     /* ── SKILLS ── */
+    #skills {
+      background:
+        radial-gradient(ellipse 75% 60% at 0%   45%,  rgba(99,102,241,0.16) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 100%  5%,   rgba(56,189,248,0.13) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 40% at 55%  100%,  rgba(139,92,246,0.11) 0%, transparent 50%),
+        #0b1120;
+    }
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
     }
-
     .skill-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px 18px;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      border-radius: 12px; padding: 22px 24px;
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 0.45s ease, transform 0.45s ease,
+                  border-color 0.18s, box-shadow 0.18s;
     }
-
-    .skill-card:hover {
-      border-color: var(--subtle);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    .skill-card.visible { opacity: 1; transform: translateY(0); }
+    .skill-card.visible:hover {
+      border-color: var(--accent);
+      box-shadow: 0 6px 24px rgba(77,142,240,0.14);
+      transform: translateY(-4px);
     }
-
     .skill-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 14px;
     }
-
-    .skill-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
+    .skill-name { font-size: 14px; font-weight: 600; color: var(--text); }
     .skill-pct {
       font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--muted);
+      font-size: 13px; color: var(--accent); font-weight: 500;
     }
-
     .skill-bar {
-      height: 3px;
-      background: var(--border);
-      border-radius: 2px;
-      overflow: hidden;
+      height: 4px; background: var(--border);
+      border-radius: 2px; overflow: hidden;
     }
-
     .skill-fill {
-      height: 100%;
-      border-radius: 2px;
-      width: 0;
-      transition: width 1.2s cubic-bezier(.22,.68,0,1.1);
+      height: 100%; border-radius: 2px;
+      width: 0; transition: width 1.3s cubic-bezier(.22,.68,0,1.1);
+      position: relative; overflow: hidden;
     }
-
+    .skill-fill::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+      background-size: 200% 100%;
+      animation: shimmer 2.2s linear infinite;
+    }
     .c-accent { background: var(--accent); }
-    .c-dark   { background: var(--text); }
-    .c-mid    { background: #666; }
+    .c-dark   { background: #94a3b8; }
+    .c-mid    { background: #64748b; }
 
-    /* ── GAMES SLIDESHOW ── */
-    .slideshow-outer {
-      position: relative;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      height: min(460px, calc(100vh - 260px));
-      background: var(--bg);
-    }
-
-    .slide {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      grid-template-columns: 58% 1fr;
-      opacity: 0;
-      transition: opacity 0.45s ease;
-      pointer-events: none;
-    }
-
-    .slide.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .slide-img-panel {
-      overflow: hidden;
-      background: var(--surface);
-    }
-
-    .slide-img-panel img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      transition: transform 0.4s ease;
-    }
-
-    .slide.active .slide-img-panel img {
-      transform: scale(1);
-    }
-
-    .slide-info-panel {
-      padding: 36px 36px 70px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      border-left: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .slide-counter {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--subtle);
-      letter-spacing: 1px;
-    }
-
-    .slide-game-meta {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    .slide-title {
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.6px;
-      line-height: 1.2;
-    }
-
-    .slide-desc {
-      font-size: 13px;
-      color: #7f91b0;
-      line-height: 1.75;
-      flex: 1;
-    }
-
-    .slide-nav {
-      position: absolute;
-      bottom: 22px;
-      left: 58%;
-      right: 0;
-      padding: 0 36px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 2;
-    }
-
-    .slide-btn {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      cursor: pointer;
-      font-size: 14px;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s, border-color 0.15s, color 0.15s;
-      flex-shrink: 0;
-    }
-
-    .slide-btn:hover {
-      background: var(--text);
-      color: #fff;
-      border-color: var(--text);
-    }
-
-    .slide-dots {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .slide-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--border);
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      transition: background 0.2s, width 0.25s;
-    }
-
-    .slide-dot.active {
-      background: var(--accent);
-      width: 20px;
-      border-radius: 3px;
-    }
-
-    @media (max-width: 640px) {
-      .slideshow-outer { height: auto; }
-      .slide {
-        position: relative;
-        grid-template-columns: 1fr;
-        opacity: 1;
-        display: none;
-        pointer-events: all;
-      }
-      .slide.active { display: grid; }
-      .slide-img-panel { height: 220px; }
-      .slide-nav { position: static; padding: 0; margin-top: 12px; }
-      .slide-info-panel { padding: 20px 20px 20px; }
-    }
-
-    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
-
-    .tag {
-      font-size: 11px;
-      font-weight: 500;
-      padding: 3px 10px;
-      border-radius: 100px;
-      background: var(--surface);
-      color: var(--muted);
-      border: 1px solid var(--border);
-    }
-
-    .tag-accent {
-      background: var(--accent-light);
-      color: var(--accent);
-      border-color: #c7d9ff;
-    }
-
-    /* ── EXPERIENCE ── */
-    .timeline { position: relative; }
-
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 2rem;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .timeline-item:last-child { border-bottom: none; }
-
-    @media (max-width: 560px) {
-      .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
-    }
-
-    .tl-date {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.5px;
-      padding-top: 3px;
-    }
-
-    .tl-role {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 3px;
-      letter-spacing: -0.3px;
-    }
-
-    .tl-company {
-      font-size: 13px;
-      color: var(--accent);
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-
-    .tl-desc {
-      font-size: 13px;
-      color: #7f91b0;
-      line-height: 1.75;
-    }
-
-    /* ── CONTACT ── */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    @media (max-width: 620px) { .contact-grid { grid-template-columns: 1fr; gap: 2rem; } }
-
-    .available-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #0d2918;
-      border: 1px solid #14532d;
-      border-radius: 100px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 500;
-      color: #4ade80;
-      margin-bottom: 1.5rem;
-    }
-
-    .available-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: #4ade80;
-      animation: blink 1.8s ease-in-out infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .contact-desc {
-      font-size: 15px;
-      line-height: 1.8;
-      color: #7f91b0;
-    }
-
-    .contact-links { list-style: none; }
-
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-      transition: color 0.15s;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .contact-link:hover { color: var(--accent); }
-
-    .contact-link svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; color: var(--muted); }
-
-    .contact-link:hover svg { color: var(--accent); }
-
-    .contact-link-label {
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 400;
-      display: block;
-      margin-top: 1px;
-    }
-
-    .footer-note {
-      margin-top: 2.5rem;
-      text-align: center;
-      font-size: 12px;
-      color: var(--subtle);
-    }
-
-    /* ── ACHIEVEMENTS ── */
-    .achievement-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .achievement-img {
-      width: 100%;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: var(--surface);
-    }
-
-    .achievement-img img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .achievement-card {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 20px 24px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--surface);
-    }
-
-    .achievement-badge {
-      font-size: 36px;
-      flex-shrink: 0;
-      line-height: 1;
-    }
-
-    .achievement-info { flex: 1; }
-
-    .achievement-title {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.3px;
-      margin-bottom: 3px;
-    }
-
-    .achievement-meta {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .achievement-desc {
-      font-size: 13px;
-      color: #7f91b0;
-      line-height: 1.65;
-    }
-
-    .achievement-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #1c1408;
-      border: 1px solid #78350f;
-      border-radius: 100px;
-      padding: 5px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #fbbf24;
-      flex-shrink: 0;
-    }
-
-    /* ── GAME MODAL ── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(6px);
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-    }
-    .modal-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .modal-box {
-      background: var(--bg);
-      border-radius: 16px;
-      width: min(580px, 92vw);
-      max-height: 88vh;
-      overflow-y: auto;
-      position: relative;
-      transform: scale(0.88) translateY(20px);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 24px 80px rgba(0,0,0,0.28);
-    }
-    .modal-overlay.open .modal-box {
-      transform: scale(1) translateY(0);
-    }
-    .modal-img {
-      width: 100%;
-      display: block;
-      object-fit: contain;
-      background: var(--surface);
-      border-radius: 16px 16px 0 0;
-      max-height: 340px;
-    }
-    .modal-body {
-      padding: 22px 26px 28px;
-    }
-    .modal-title {
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 4px;
-    }
-    .modal-meta {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-    .modal-desc {
-      font-size: 14px;
-      line-height: 1.75;
-      color: #94a3b8;
-      margin-bottom: 16px;
-    }
-    .modal-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.45);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s;
-      z-index: 1;
-    }
-    .modal-close:hover { background: rgba(0,0,0,0.75); }
-
-    /* ── SCROLL ANIMATION ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.55s ease, transform 0.55s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ── SECTION BACKGROUNDS — dark aurora mesh ── */
-    .hero {
-      background:
-        radial-gradient(ellipse 90% 70% at 88% 8%,  rgba(77,142,240,0.18) 0%, transparent 55%),
-        radial-gradient(ellipse 70% 60% at 8%  75%,  rgba(99,102,241,0.14) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 45% at 50% 110%, rgba(56,189,248,0.10) 0%, transparent 50%),
-        #0b1120;
-    }
-
-    #about {
-      background:
-        radial-gradient(ellipse 80% 65% at 95% 10%,  rgba(56,189,248,0.13) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 55% at 0%  90%,  rgba(99,102,241,0.12) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 35% at 45% 50%,  rgba(77,142,240,0.07) 0%, transparent 50%),
-        #0c1222;
-    }
-
-    #skills {
-      background:
-        radial-gradient(ellipse 75% 60% at 0%   45%,  rgba(99,102,241,0.15) 0%, transparent 55%),
-        radial-gradient(ellipse 65% 55% at 100% 5%,   rgba(56,189,248,0.12) 0%, transparent 55%),
-        radial-gradient(ellipse 45% 40% at 55%  100%, rgba(139,92,246,0.10) 0%, transparent 50%),
-        #0b1120;
-    }
-
+    /* ── GAMES ── */
     #games {
       background:
-        radial-gradient(ellipse 80% 60% at 15%  5%,  rgba(56,189,248,0.13) 0%, transparent 55%),
-        radial-gradient(ellipse 65% 55% at 92%  88%, rgba(139,92,246,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 15%  5%,  rgba(56,189,248,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 92%  88%, rgba(139,92,246,0.13) 0%, transparent 55%),
         radial-gradient(ellipse 40% 35% at 50%  50%, rgba(77,142,240,0.08) 0%, transparent 50%),
         #0c1222;
     }
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 860px) { .games-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px)  { .games-grid { grid-template-columns: 1fr; } }
 
+    .game-card {
+      display: block;
+      border-radius: 12px; overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s, border-color 0.25s;
+    }
+    .game-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      border-color: rgba(77,142,240,0.35);
+    }
+    .game-card-thumb {
+      position: relative; overflow: hidden;
+      aspect-ratio: 16 / 10;
+    }
+    .game-card-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+    }
+    .game-card:hover .game-card-thumb img { transform: scale(1.06); }
+
+    .game-card-info { padding: 18px 20px 16px; }
+    .game-card-title {
+      font-size: 17px; font-weight: 700;
+      color: var(--text); letter-spacing: -0.3px; margin-bottom: 3px;
+    }
+    .game-card-studio { font-size: 12px; color: var(--muted); }
+
+    .game-card-desc-wrap {
+      max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.35s ease, padding 0.35s ease;
+      border-top: 1px solid transparent;
+      padding: 0 20px;
+    }
+    .game-card:hover .game-card-desc-wrap {
+      max-height: 180px; opacity: 1;
+      border-top-color: var(--border);
+      padding: 14px 20px 20px;
+    }
+    .game-card-desc { font-size: 13px; color: #7f91b0; line-height: 1.75; }
+
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px; font-weight: 500;
+      padding: 4px 12px; border-radius: 100px;
+      background: var(--surface); color: var(--muted);
+      border: 1px solid var(--border);
+      transition: all 0.15s;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+    .tag-accent {
+      background: var(--accent-light); color: var(--accent);
+      border-color: rgba(77,142,240,0.35);
+    }
+
+    /* ── EXPERIENCE / GIT LOG TIMELINE ── */
     #experience {
       background:
-        radial-gradient(ellipse 75% 60% at 5%   25%,  rgba(56,189,248,0.14) 0%, transparent 55%),
-        radial-gradient(ellipse 65% 55% at 98%  75%,  rgba(77,142,240,0.12) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 40% at 50%  0%,   rgba(99,102,241,0.09) 0%, transparent 50%),
+        radial-gradient(ellipse 75% 60% at 5%   25%,  rgba(56,189,248,0.15) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 98%  75%,  rgba(77,142,240,0.13) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50%   0%,  rgba(99,102,241,0.09) 0%, transparent 50%),
         #0b1120;
     }
 
+    .git-log {
+      position: relative;
+      padding: 1rem 0 2rem;
+    }
+
+    /* centered vertical line */
+    .git-log::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: 0; bottom: 0;
+      width: 2px;
+      transform: translateX(-50%);
+      background: linear-gradient(to bottom,
+        var(--accent) 0%,
+        #6366f1 45%,
+        #8b5cf6 80%,
+        rgba(139,92,246,0.2) 100%
+      );
+      border-radius: 2px;
+    }
+
+    .git-entry {
+      display: grid;
+      grid-template-columns: 1fr 80px 1fr;
+      margin-bottom: 4rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .git-entry.visible { opacity: 1; transform: none; }
+    .git-entry:last-child { margin-bottom: 0; }
+
+    /* center column: node */
+    .git-node-col {
+      grid-column: 2;
+      display: flex; justify-content: center;
+      padding-top: 8px;
+      position: relative; z-index: 2;
+    }
+
+    .git-node {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2.5px solid var(--accent);
+      box-shadow: 0 0 0 5px rgba(77,142,240,0.15), 0 0 22px rgba(77,142,240,0.45);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .git-node::after {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .git-entry:hover .git-node {
+      box-shadow: 0 0 0 8px rgba(77,142,240,0.2), 0 0 32px rgba(77,142,240,0.6);
+      transform: scale(1.2);
+    }
+    .git-entry:nth-child(2) .git-node { border-color: #6366f1; box-shadow: 0 0 0 5px rgba(99,102,241,0.15), 0 0 22px rgba(99,102,241,0.45); }
+    .git-entry:nth-child(2) .git-node::after { background: #6366f1; }
+    .git-entry:nth-child(2):hover .git-node { box-shadow: 0 0 0 8px rgba(99,102,241,0.2), 0 0 32px rgba(99,102,241,0.6); }
+    .git-entry:nth-child(3) .git-node { border-color: #8b5cf6; box-shadow: 0 0 0 5px rgba(139,92,246,0.15), 0 0 22px rgba(139,92,246,0.45); }
+    .git-entry:nth-child(3) .git-node::after { background: #8b5cf6; }
+    .git-entry:nth-child(3):hover .git-node { box-shadow: 0 0 0 8px rgba(139,92,246,0.2), 0 0 32px rgba(139,92,246,0.6); }
+
+    /* right entry: content column 3 */
+    .git-entry--right .git-content { grid-column: 3; padding-left: 2.5rem; }
+
+    /* left entry: content column 1, right-aligned */
+    .git-entry--left .git-content {
+      grid-column: 1; grid-row: 1;
+      padding-right: 2.5rem;
+      text-align: right;
+    }
+    .git-entry--left .git-node-col { grid-row: 1; }
+    .git-entry--left .tags { justify-content: flex-end; }
+
+    .git-commit-header { margin-bottom: 14px; }
+    .git-company-label {
+      display: block;
+      font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.4px;
+      margin-bottom: 5px;
+    }
+    .git-commit-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px; color: var(--muted);
+    }
+
+    .git-commit-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px; padding: 24px 28px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .git-entry--right .git-commit-card:hover {
+      border-color: rgba(77,142,240,0.4);
+      box-shadow: 0 6px 28px rgba(77,142,240,0.13);
+      transform: translateX(5px);
+    }
+    .git-entry--left .git-commit-card:hover {
+      border-color: rgba(99,102,241,0.4);
+      box-shadow: 0 6px 28px rgba(99,102,241,0.13);
+      transform: translateX(-5px);
+    }
+    .git-entry:nth-child(3) .git-commit-card:hover { border-color: rgba(139,92,246,0.4); box-shadow: 0 6px 28px rgba(139,92,246,0.13); }
+
+    .tl-role { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 10px; letter-spacing: -0.5px; }
+    .tl-desc { font-size: 15px; color: #7f91b0; line-height: 1.9; }
+
+    @media (max-width: 680px) {
+      .git-log::before { left: 20px; transform: none; }
+      .git-entry { grid-template-columns: 50px 1fr; }
+      .git-node-col { grid-column: 1; }
+      .git-entry--right .git-content,
+      .git-entry--left .git-content {
+        grid-column: 2; grid-row: 1;
+        padding-left: 1.5rem; padding-right: 0;
+        text-align: left;
+      }
+      .git-entry--left .tags { justify-content: flex-start; }
+    }
+
+    /* ── ACHIEVEMENTS ── */
     #achievements {
       background:
-        radial-gradient(ellipse 85% 65% at 82%  15%,  rgba(77,142,240,0.18) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 55% at 8%   82%,  rgba(56,189,248,0.13) 0%, transparent 55%),
-        radial-gradient(ellipse 45% 40% at 40%  55%,  rgba(99,102,241,0.09) 0%, transparent 50%),
+        radial-gradient(ellipse 85% 65% at 82%  15%,  rgba(77,142,240,0.20) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 55% at 8%   82%,  rgba(56,189,248,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 40% at 40%  55%,  rgba(99,102,241,0.10) 0%, transparent 50%),
         #0c1222;
     }
-
-    #contact {
-      background:
-        radial-gradient(ellipse 70% 60% at 18%  18%,  rgba(99,102,241,0.14) 0%, transparent 55%),
-        radial-gradient(ellipse 65% 55% at 88%  82%,  rgba(56,189,248,0.12) 0%, transparent 55%),
-        radial-gradient(ellipse 45% 40% at 55%  5%,   rgba(77,142,240,0.09) 0%, transparent 50%),
-        #0b1120;
+    .achievement-wrap { display: flex; flex-direction: column; gap: 24px; }
+    .achievement-img {
+      width: 100%; border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border); background: var(--surface);
+      transition: transform 0.35s ease, box-shadow 0.35s;
     }
+    .achievement-img:hover {
+      transform: scale(1.012);
+      box-shadow: 0 16px 48px rgba(77,142,240,0.22);
+    }
+    .achievement-img img { width: 100%; height: auto; display: block; }
+
+    .achievement-card {
+      display: flex; align-items: center; gap: 24px;
+      padding: 26px 32px; border: 1px solid var(--border);
+      border-radius: 14px; background: var(--surface);
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      animation: pulseGlow 3.5s ease-in-out infinite;
+    }
+    .achievement-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 10px 40px rgba(77,142,240,0.22);
+      transform: translateY(-3px);
+    }
+    .achievement-badge {
+      font-size: 48px; flex-shrink: 0; line-height: 1;
+      animation: float 4s ease-in-out infinite;
+    }
+    .achievement-info { flex: 1; }
+    .achievement-title { font-size: 19px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 4px; }
+    .achievement-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .achievement-desc { font-size: 14px; color: #7f91b0; line-height: 1.7; }
+    .achievement-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #1c1408; border: 1px solid #78350f;
+      border-radius: 100px; padding: 7px 16px;
+      font-size: 13px; font-weight: 600; color: #fbbf24; flex-shrink: 0;
+    }
+
+    /* ── SOCIAL DOCK ── */
+    .social-dock {
+      position: fixed; bottom: 28px; right: 28px;
+      display: flex; flex-direction: column; gap: 10px;
+      z-index: 90;
+    }
+    .social-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      transition: border-color 0.18s, color 0.18s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s;
+    }
+    .social-btn svg { width: 17px; height: 17px; fill: currentColor; }
+    .social-btn:hover {
+      border-color: var(--accent); color: var(--accent);
+      transform: scale(1.15);
+      box-shadow: 0 4px 18px rgba(77,142,240,0.28);
+    }
+
+    /* removed: game detail overlay + lightbox (now in projects/style.css) */
+    /*
+    .game-detail-overlay {
+      position: fixed; inset: 0;
+      background: #06101e;
+      z-index: 200; overflow-y: auto;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .game-detail-overlay.open { opacity: 1; pointer-events: all; }
+
+    .game-detail-inner {
+      max-width: 960px; margin: 0 auto;
+      padding: 3.5rem 2.5rem 6rem;
+    }
+    .game-detail-back {
+      background: none; border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px; color: var(--muted); letter-spacing: 0.8px;
+      cursor: pointer; padding: 0; margin-bottom: 2.5rem;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: color 0.15s;
+    }
+    .game-detail-back:hover { color: var(--text); }
+
+    .game-detail-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--accent);
+      letter-spacing: 1.5px; text-transform: uppercase;
+      border: 1px solid rgba(77,142,240,0.4);
+      padding: 4px 10px; border-radius: 4px;
+      margin-bottom: 1.2rem;
+    }
+    .game-detail-title {
+      font-size: clamp(34px, 5.5vw, 60px);
+      font-weight: 700; color: var(--text);
+      letter-spacing: -1.5px; line-height: 1.08;
+      text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .game-detail-hr { border: none; border-top: 1px solid var(--border); margin-bottom: 2.5rem; }
+
+    .game-detail-body {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 5rem; align-items: start;
+    }
+    @media (max-width: 700px) { .game-detail-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .game-detail-section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--accent);
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .game-detail-overview {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px; color: #7f91b0;
+      line-height: 2; margin-bottom: 2.5rem;
+    }
+    .game-detail-screenshots {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .game-detail-screenshots img {
+      width: 100%; border-radius: 8px;
+      border: 1px solid var(--border); display: block;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .game-detail-screenshots img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .game-detail-video {
+      width: 100%; border-radius: 8px;
+      border: 1px solid var(--border); display: block;
+      background: #000;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 400;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+
+    .lightbox-img {
+      max-width: 90vw; max-height: 88vh;
+      object-fit: contain; border-radius: 6px; display: block;
+      transition: opacity 0.15s ease;
+    }
+    .lightbox-img.switching { opacity: 0; }
+
+    .lightbox-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 50%; width: 48px; height: 48px;
+      color: #fff; font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, transform 0.15s;
+      z-index: 1;
+    }
+    .lightbox-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-50%) scale(1.1); }
+    .lightbox-prev { left: 24px; }
+    .lightbox-next { right: 24px; }
+
+    .lightbox-close {
+      position: absolute; top: 18px; right: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 50%; width: 38px; height: 38px;
+      color: #fff; font-size: 14px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+    .lightbox-counter {
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px; color: rgba(255,255,255,0.45);
+      letter-spacing: 1px; white-space: nowrap;
+    }
+
+    .game-detail-sidebar-block { margin-bottom: 2rem; }
+    .game-detail-sidebar-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; color: var(--muted);
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .game-detail-sidebar-value {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px; color: var(--accent); letter-spacing: 0.3px;
+    }
+    .game-detail-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .game-detail-tag {
+      font-size: 11px; font-weight: 500;
+      padding: 5px 12px; border-radius: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border); color: var(--muted);
+    }
+    */
   </style>
 </head>
 <body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
 
   <!-- NAV -->
   <nav>
     <div class="container">
       <span class="nav-logo">BHD<span>.</span>DEV</span>
       <ul class="nav-links">
-        <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#games">Games</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#achievements">Achievements</a></li>
-        <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
   </nav>
@@ -935,8 +847,28 @@
           <p class="hero-eyebrow">Game Developer · Ho Chi Minh City</p>
           <h1 class="hero-name">Bui Hoang Duy</h1>
           <p class="hero-title"><strong>Unity</strong> · SFML / SDL</p>
+          <p class="hero-bio">A game developer based in Ho Chi Minh City, passionate about crafting unique gaming experiences on mobile and PC. I blend strong storytelling with inventive mechanics — from Unity to building from scratch with C++ and SFML, constantly pushing my limits through game jams.</p>
+          <div class="hero-info-row">
+            <span class="hero-chip"><span class="chip-key">Location</span> Ho Chi Minh City 🇻🇳</span>
+            <span class="hero-chip"><span class="chip-key">Lang</span> C#, C++</span>
+            <span class="hero-chip"><span class="chip-key">EDU</span> HCMUS — CS 2021</span>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-num" data-count="2">0</span>
+              <span class="stat-label">Years Exp</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num" data-count="4">0</span>
+              <span class="stat-label">Games Shipped</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num" data-count="1">0</span>
+              <span class="stat-label">Jam Awards</span>
+            </div>
+          </div>
           <a href="#games" class="hero-cta">View Games →</a>
-          <a href="cv.pdf" class="hero-cta-secondary">Download CV</a>
+          <a href="BuiHoangDuy_Game_Developer.pdf" download class="hero-cta-secondary">Download CV</a>
         </div>
         <div class="hero-avatar-wrap">
           <img src="assets/Avatar.jpg" alt="Bui Hoang Duy" class="hero-avatar" />
@@ -945,114 +877,20 @@
     </div>
   </div>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="container reveal">
-      <p class="section-label">01 · About</p>
-      <h2 class="section-title">A little about me</h2>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            Xin chào! Mình là Duy, một game developer tại Hồ Chí Minh với hơn 1 năm kinh nghiệm
-            tạo ra những trải nghiệm chơi game độc đáo trên mobile và PC.
-          </p>
-          <p>
-            Đam mê kết hợp storytelling mạnh mẽ với mechanics sáng tạo, luôn tìm kiếm sự cân bằng
-            giữa gameplay fun và visual đẹp.
-          </p>
-          <p>
-            Bên cạnh Unity, mình cũng có kinh nghiệm build game từ scratch với C++ và các framework
-            như SFML và SDL — tham gia game jam là cách mình không ngừng học hỏi và thử thách bản thân.
-          </p>
-        </div>
-        <ul class="info-list">
-          <li class="info-item">
-            <span class="info-key">Location</span>
-            <span class="info-val">Ho Chi Minh City 🇻🇳</span>
-          </li>
-          <li class="info-item">
-            <span class="info-key">Specialty</span>
-            <span class="info-val">Unity · Mobile Game</span>
-          </li>
-          <li class="info-item">
-            <span class="info-key">Languages</span>
-            <span class="info-val">C#, C++</span>
-          </li>
-          <li class="info-item">
-            <span class="info-key">Education</span>
-            <span class="info-val">HCMUS — CS 2021</span>
-          </li>
-          <li class="info-item">
-            <span class="info-key">CV</span>
-            <span class="info-val"><a href="cv.pdf" style="color:var(--accent);">Download PDF ↓</a></span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
   <!-- SKILLS -->
   <section id="skills">
     <div class="container reveal">
-      <p class="section-label">02 · Skills</p>
+      <p class="section-label">01 · Skills</p>
       <h2 class="section-title">Skills &amp; Tools</h2>
       <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">Unity / C#</span>
-            <span class="skill-pct">92%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-accent" data-w="92"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">C++ / SFML / SDL</span>
-            <span class="skill-pct">78%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-dark" data-w="78"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">Shader / HLSL</span>
-            <span class="skill-pct">65%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-mid" data-w="65"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">Blender 3D</span>
-            <span class="skill-pct">70%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-mid" data-w="70"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">Game Design</span>
-            <span class="skill-pct">88%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-accent" data-w="88"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">Photoshop / Aseprite</span>
-            <span class="skill-pct">78%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-mid" data-w="78"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">Git / GitHub</span>
-            <span class="skill-pct">90%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-dark" data-w="90"></div></div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <span class="skill-name">UI / UX Design</span>
-            <span class="skill-pct">75%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill c-mid" data-w="75"></div></div>
-        </div>
+        <div class="skill-card"><div class="skill-header"><span class="skill-name">Unity / C#</span><span class="skill-pct">92%</span></div><div class="skill-bar"><div class="skill-fill c-accent" data-w="92"></div></div></div>
+        <div class="skill-card"><div class="skill-header"><span class="skill-name">C++ / SFML / SDL</span><span class="skill-pct">78%</span></div><div class="skill-bar"><div class="skill-fill c-dark" data-w="78"></div></div></div>
+        <div class="skill-card"><div class="skill-header"><span class="skill-name">Shader / HLSL</span><span class="skill-pct">65%</span></div><div class="skill-bar"><div class="skill-fill c-mid" data-w="65"></div></div></div>
+        <div class="skill-card"><div class="skill-header"><span class="skill-name">Blender 3D</span><span class="skill-pct">70%</span></div><div class="skill-bar"><div class="skill-fill c-mid" data-w="70"></div></div></div>
+        <div class="skill-card"><div class="skill-header"><span class="skill-name">Game Design</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill c-accent" data-w="88"></div></div></div>
+        <div class="skill-card"><div class="skill-header"><span class="skill-name">Photoshop / Aseprite</span><span class="skill-pct">78%</span></div><div class="skill-bar"><div class="skill-fill c-mid" data-w="78"></div></div></div>
+        <div class="skill-card"><div class="skill-header"><span class="skill-name">Git / GitHub</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill c-dark" data-w="90"></div></div></div>
+        <div class="skill-card"><div class="skill-header"><span class="skill-name">UI / UX Design</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-fill c-mid" data-w="75"></div></div></div>
       </div>
     </div>
   </section>
@@ -1060,95 +898,61 @@
   <!-- GAMES -->
   <section id="games">
     <div class="container reveal">
-      <p class="section-label">03 · Games</p>
+      <p class="section-label">02 · Games</p>
       <h2 class="section-title">Featured Games</h2>
-      <div class="slideshow-outer">
+      <div class="games-grid">
 
-        <!-- Slide 1 -->
-        <div class="slide active">
-          <div class="slide-img-panel">
-            <img src="assets/Color Crusher.png" alt="Color Crusher" />
+        <a class="game-card" href="projects/color-crusher.html">
+          <div class="game-card-thumb">
+            <img src="assets/Color Crusher/Color Crusher.png" alt="Color Crusher" loading="lazy" />
           </div>
-          <div class="slide-info-panel">
-            <p class="slide-counter">01 / 04</p>
-            <p class="slide-game-meta">2026 · Unity · Mobile</p>
-            <h3 class="slide-title">Color Crusher</h3>
-            <p class="slide-desc">Chạm và phá vỡ các khối trên bàn chơi để thu thập vật phẩm, hoàn thành thanh tiến độ và vượt qua hàng trăm màn chơi đầy thử thách.
-Sử dụng chiến thuật hợp lý, tạo các chuỗi phá hủy mãn nhãn và mở khóa những màn chơi mới với độ khó ngày càng tăng. Top 2 Voodoo Gamejam</p>
-            <div class="tags">
-              <span class="tag tag-accent">Puzzle</span>
-              <span class="tag">Destruction</span>
-              <span class="tag">Mobile</span>
-            </div>
+          <div class="game-card-info">
+            <h3 class="game-card-title">Color Crusher</h3>
+            <p class="game-card-studio">MGIF · 2026</p>
           </div>
-        </div>
+          <div class="game-card-desc-wrap">
+            <p class="game-card-desc">Tap and smash blocks to collect items, fill the progress bar, and conquer hundreds of challenging levels. Runner-up at Voodoo Game Jam.</p>
+          </div>
+        </a>
 
-        <!-- Slide 2 -->
-        <div class="slide">
-          <div class="slide-img-panel">
-            <img src="assets/Yarn Fever.jpg" alt="Yarn Fever" />
+        <a class="game-card" href="projects/yarn-fever.html">
+          <div class="game-card-thumb">
+            <img src="assets/Yarn Fever/Yarn Fever.jpg" alt="Yarn Fever" loading="lazy" />
           </div>
-          <div class="slide-info-panel">
-            <p class="slide-counter">02 / 04</p>
-            <p class="slide-game-meta">2025 · Unity · Mobile</p>
-            <h3 class="slide-title">Yarn Fever</h3>
-            <p class="slide-desc">Mobile Puzzle game về gỡ các sợi len nhiều màu từ những vật thể đan móc và sắp xếp chúng vào đúng ô màu tương ứng.
-Gameplay kết hợp giữa chiến thuật quản lý không gian và cảm giác ASMR thỏa mãn, với độ khó tăng dần qua hàng trăm màn chơi.</p>
-            <div class="tags">
-              <span class="tag tag-accent">Puzzle</span>
-              <span class="tag">Mobile</span>
-            </div>
+          <div class="game-card-info">
+            <h3 class="game-card-title">Yarn Fever</h3>
+            <p class="game-card-studio">Tenefic Games — Zlab Studio · 2025</p>
           </div>
-        </div>
+          <div class="game-card-desc-wrap">
+            <p class="game-card-desc">A mobile puzzle game about untangling colorful yarn strands from crocheted objects and sorting them into matching color slots.</p>
+          </div>
+        </a>
 
-        <!-- Slide 3 -->
-        <div class="slide">
-          <div class="slide-img-panel">
-            <img src="assets/MyCoffeeShop.jpg" alt="My Coffee Shop" />
+        <a class="game-card" href="projects/my-coffee-shop.html">
+          <div class="game-card-thumb">
+            <img src="assets/My CoffeeShop/MyCoffeeShop.jpg" alt="My Coffee Shop" loading="lazy" />
           </div>
-          <div class="slide-info-panel">
-            <p class="slide-counter">03 / 04</p>
-            <p class="slide-game-meta">2023 · Unity · Mobile</p>
-            <h3 class="slide-title">My Coffee Shop</h3>
-            <p class="slide-desc">Điều hành nhà hàng động vật đáng yêu của riêng mình, phục vụ những vị khách dễ thương và khám phá các câu chuyện ấm áp đầy bất ngờ.
-Nâng cấp thực đơn, trang trí nhà hàng, và phát triển doanh nghiệp của bạn thành điểm đến nổi tiếng nhất trong thế giới động vật.</p>
-            <div class="tags">
-              <span class="tag tag-accent">Casual</span>
-              <span class="tag">Management</span>
-              <span class="tag">Mobile</span>
-            </div>
+          <div class="game-card-info">
+            <h3 class="game-card-title">My Coffee Shop</h3>
+            <p class="game-card-studio">Apps Cyclone Technology JSC · 2023</p>
           </div>
-        </div>
+          <div class="game-card-desc-wrap">
+            <p class="game-card-desc">Run your own cozy animal café, serve adorable customers, and uncover heartwarming stories along the way.</p>
+          </div>
+        </a>
 
-        <!-- Slide 4 -->
-        <div class="slide">
-          <div class="slide-img-panel">
-            <img src="assets/SFML.png" alt="Void Raiders" />
+        <a class="game-card" href="projects/void-raiders.html">
+          <div class="game-card-thumb">
+            <img src="assets/SpaceShooter/SFML.png" alt="Void Raiders" loading="lazy" />
           </div>
-          <div class="slide-info-panel">
-            <p class="slide-counter">04 / 04</p>
-            <p class="slide-game-meta">2022 · C++ / SFML · PC</p>
-            <h3 class="slide-title">Void Raiders</h3>
-            <p class="slide-desc">Game bắn máy bay Bullet Hell hành động tốc độ cao, nơi người chơi điều khiển chiến đấu cơ tiêu diệt hàng loạt kẻ địch và né tránh những cơn mưa đạn dày đặc.</p>
-            <div class="tags">
-              <span class="tag tag-accent">Action</span>
-              <span class="tag">Shooter</span>
-              <span class="tag">PC</span>
-            </div>
+          <div class="game-card-info">
+            <h3 class="game-card-title">Void Raiders</h3>
+            <p class="game-card-studio">Personal Project · 2022</p>
           </div>
-        </div>
-
-        <!-- Shared navigation -->
-        <div class="slide-nav">
-          <button class="slide-btn" id="slidePrev">←</button>
-          <div class="slide-dots">
-            <button class="slide-dot active" data-i="0"></button>
-            <button class="slide-dot" data-i="1"></button>
-            <button class="slide-dot" data-i="2"></button>
-            <button class="slide-dot" data-i="3"></button>
+          <div class="game-card-desc-wrap">
+            <p class="game-card-desc">A fast-paced bullet hell shooter where you pilot a fighter craft to eliminate waves of enemies while weaving through dense curtains of projectiles.</p>
           </div>
-          <button class="slide-btn" id="slideNext">→</button>
-        </div>
+        </a>
 
       </div>
     </div>
@@ -1157,33 +961,73 @@ Nâng cấp thực đơn, trang trí nhà hàng, và phát triển doanh nghiệ
   <!-- EXPERIENCE -->
   <section id="experience">
     <div class="container reveal">
-      <p class="section-label">04 · Experience</p>
+      <p class="section-label">03 · Experience</p>
       <h2 class="section-title">Work History</h2>
-      <div class="timeline">
-        <div class="timeline-item">
-          <p class="tl-date">2023 — Present</p>
-          <div>
-            <p class="tl-role">Senior Game Developer</p>
-            <p class="tl-company">VNG Game Studios, HCM City</p>
-            <p class="tl-desc">Lead developer cho mobile game RPG với 500K MAU. Phụ trách architecture, performance optimization và hướng dẫn team 5 người.</p>
+      <div class="git-log">
+
+        <!-- entry 1: right -->
+        <div class="git-entry git-entry--right">
+          <div class="git-node-col"><div class="git-node"></div></div>
+          <div class="git-content">
+            <div class="git-commit-header">
+              <span class="git-company-label">MGIF</span>
+              <span class="git-commit-date">2026 — Present</span>
+            </div>
+            <div class="git-commit-card">
+              <p class="tl-role">Game Developer</p>
+              <p class="tl-desc">Collaborated closely with POs and Designers to build game mechanics and a level editor across 3 mobile titles. Researched and implemented algorithms to realize complex gameplay systems, while optimizing performance to ensure a smooth player experience.</p>
+              <div class="tags" style="margin-top:16px">
+                <span class="tag tag-accent">Unity</span>
+                <span class="tag">C#</span>
+                <span class="tag">Mobile</span>
+                <span class="tag">Level Editor</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="timeline-item">
-          <p class="tl-date">2021 — 2023</p>
-          <div>
-            <p class="tl-role">Game Developer</p>
-            <p class="tl-company">Sky Mavis (Axie Infinity), Remote</p>
-            <p class="tl-desc">Phát triển game mechanics và smart contract integration cho blockchain game. Unity frontend với WebGL build optimization.</p>
+
+        <!-- entry 2: left -->
+        <div class="git-entry git-entry--left">
+          <div class="git-content">
+            <div class="git-commit-header">
+              <span class="git-company-label">Tenefic Games — Zlab Studio</span>
+              <span class="git-commit-date">2025 — 2026</span>
+            </div>
+            <div class="git-commit-card">
+              <p class="tl-role">Game Developer</p>
+              <p class="tl-desc">Designed and implemented game mechanics and a level editor for a hyper-casual mobile title. Optimized the render pipeline and memory usage to achieve stable frame rates across a wide range of devices.</p>
+              <div class="tags" style="margin-top:16px">
+                <span class="tag tag-accent">Unity</span>
+                <span class="tag">C#</span>
+                <span class="tag">Mobile</span>
+                <span class="tag">Hyper-casual</span>
+              </div>
+            </div>
+          </div>
+          <div class="git-node-col"><div class="git-node"></div></div>
+        </div>
+
+        <!-- entry 3: right -->
+        <div class="git-entry git-entry--right">
+          <div class="git-node-col"><div class="git-node"></div></div>
+          <div class="git-content">
+            <div class="git-commit-header">
+              <span class="git-company-label">Apps Cyclone Technology JSC</span>
+              <span class="git-commit-date">2024 — 2025</span>
+            </div>
+            <div class="git-commit-card">
+              <p class="tl-role">Intern Game Developer</p>
+              <p class="tl-desc">Contributed to the development and maintenance of mobile games, integrating Firebase SDK for analytics and remote config, and deploying a Mediation SDK to maximize in-app advertising revenue.</p>
+              <div class="tags" style="margin-top:16px">
+                <span class="tag tag-accent">Unity</span>
+                <span class="tag">Firebase</span>
+                <span class="tag">Mobile</span>
+                <span class="tag">Ad Mediation</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="timeline-item">
-          <p class="tl-date">2019 — 2021</p>
-          <div>
-            <p class="tl-role">Junior Game Developer</p>
-            <p class="tl-company">Amanotes, HCM City</p>
-            <p class="tl-desc">Phát triển và maintain 3 music game trên mobile. Tập trung vào audio synchronization và UI/UX animation.</p>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
@@ -1191,7 +1035,7 @@ Nâng cấp thực đơn, trang trí nhà hàng, và phát triển doanh nghiệ
   <!-- ACHIEVEMENTS -->
   <section id="achievements">
     <div class="container reveal">
-      <p class="section-label">05 · Achievements</p>
+      <p class="section-label">04 · Achievements</p>
       <h2 class="section-title">Achievements</h2>
       <div class="achievement-wrap">
         <div class="achievement-img">
@@ -1202,7 +1046,7 @@ Nâng cấp thực đơn, trang trí nhà hàng, và phát triển doanh nghiệ
           <div class="achievement-info">
             <p class="achievement-title">2nd Place — Voodoo Game Jam</p>
             <p class="achievement-meta">2026 · Color Crusher · Unity · Mobile</p>
-            <p class="achievement-desc">Đạt hạng 2 trong cuộc thi Voodoo Game Jam với tựa game Color Crusher — puzzle game phá khối độc đáo được đánh giá cao về gameplay loop và visual feedback.</p>
+            <p class="achievement-desc">Secured 2nd place at the Voodoo Game Jam with Color Crusher — a block-destruction puzzle game praised for its satisfying gameplay loop and polished visual feedback.</p>
           </div>
           <div class="achievement-pill">🏆 Top 2</div>
         </div>
@@ -1210,169 +1054,77 @@ Nâng cấp thực đơn, trang trí nhà hàng, và phát triển doanh nghiệ
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="container reveal">
-      <p class="section-label">06 · Contact</p>
-      <h2 class="section-title">Get in Touch</h2>
-      <div class="contact-grid">
-        <div>
-          <div class="available-badge">
-            <div class="available-dot"></div>
-            Available for freelance &amp; collab
-          </div>
-          <p class="contact-desc">
-            Mình luôn mở cửa với những dự án thú vị và cơ hội hợp tác.
-            Dù là indie game, mobile app, hay game jam — hãy nhắn tin nhé!
-          </p>
-        </div>
-        <ul class="contact-links">
-          <li>
-            <a href="https://github.com/duybuihoang" class="contact-link" target="_blank">
-              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-              GitHub
-              <span class="contact-link-label">github.com/duybuihoang</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="mailto:duybuihoang2210@gmail.com" class="contact-link">
-              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-              Email
-              <span class="contact-link-label">duybuihoang2210@gmail.com</span>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.linkedin.com/in/duybui2210/" class="contact-link" target="_blank">
-              <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-              LinkedIn
-              <span class="contact-link-label">linkedin.com/in/duybui2210</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <p class="footer-note">© 2024 Bui Hoang Duy · Built with HTML/CSS · Hosted on GitHub Pages</p>
-    </div>
-  </section>
-
-  <!-- GAME MODAL -->
-  <div class="modal-overlay" id="gameModal">
-    <div class="modal-box" id="modalBox">
-      <button class="modal-close" id="modalClose">✕</button>
-      <img class="modal-img" id="modalImg" src="" alt="" />
-      <div class="modal-body">
-        <p class="modal-meta" id="modalMeta"></p>
-        <h3 class="modal-title" id="modalTitle"></h3>
-        <p class="modal-desc" id="modalDesc"></p>
-        <div class="tags" id="modalTags"></div>
-      </div>
-    </div>
+  <!-- SOCIAL DOCK -->
+  <div class="social-dock">
+    <a href="https://github.com/duybuihoang" target="_blank" class="social-btn" title="GitHub">
+      <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    </a>
+    <a href="mailto:duybuihoang2210@gmail.com" class="social-btn" title="Email">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/duybui2210/" target="_blank" class="social-btn" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+    </a>
   </div>
 
+
   <script>
-    /* ── SCROLL SNAP (debounced 750ms) ── */
-    const sections = [...document.querySelectorAll('.hero, section')];
-    let snapTimer = null;
-    let isSnapping = false;
+    /* ── SCROLL PROGRESS ── */
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const max = document.body.scrollHeight - window.innerHeight;
+      progressBar.style.width = (window.scrollY / max * 100) + '%';
+    }, { passive: true });
 
-    function dominantSection() {
-      const vh = window.innerHeight;
-      let best = null, bestVis = 0;
-      for (const sec of sections) {
-        const r = sec.getBoundingClientRect();
-        const vis = Math.max(0, Math.min(vh, r.bottom) - Math.max(0, r.top));
-        if (vis > bestVis) { bestVis = vis; best = sec; }
-      }
-      return best;
-    }
-
-    function snapNow() {
-      const target = dominantSection();
-      if (!target) return;
-      isSnapping = true;
-      target.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => { isSnapping = false; }, 900);
-    }
-
-    function scheduleSnap() {
-      if (isSnapping) return;
-      clearTimeout(snapTimer);
-      snapTimer = setTimeout(snapNow, 750);
-    }
-
-    // Mouse wheel — scroll freely, snap after idle
-    document.addEventListener('wheel', scheduleSnap, { passive: true });
-
-    // Touch
-    document.addEventListener('touchmove', scheduleSnap, { passive: true });
-
-    // Keyboard — instant snap to next/prev
-    document.addEventListener('keydown', (e) => {
-      if (!['ArrowDown','ArrowUp','PageDown','PageUp'].includes(e.key)) return;
-      const cur = dominantSection();
-      const idx = sections.indexOf(cur);
-      const next = e.key === 'ArrowDown' || e.key === 'PageDown' ? idx + 1 : idx - 1;
-      if (next < 0 || next >= sections.length) return;
-      clearTimeout(snapTimer);
-      isSnapping = true;
-      sections[next].scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => { isSnapping = false; }, 900);
-    });
-
-    // Nav & anchor links
+    /* ── SMOOTH NAV LINKS ── */
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', (e) => {
-        const id = a.getAttribute('href').slice(1);
-        const target = sections.find(s => s.id === id);
+        const target = document.querySelector(a.getAttribute('href'));
         if (target) {
           e.preventDefault();
-          clearTimeout(snapTimer);
-          isSnapping = true;
           target.scrollIntoView({ behavior: 'smooth' });
-          setTimeout(() => { isSnapping = false; }, 900);
         }
       });
     });
 
-    /* ── REVEAL ANIMATION ── */
+    /* ── REVEAL + STAGGER ── */
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          entry.target.querySelectorAll('.skill-fill').forEach(bar => {
-            bar.style.width = bar.dataset.w + '%';
-          });
-        }
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+
+        entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+          bar.style.width = bar.dataset.w + '%';
+        });
+        entry.target.querySelectorAll('.skill-card').forEach((card, i) => {
+          setTimeout(() => card.classList.add('visible'), i * 70);
+        });
+        entry.target.querySelectorAll('.git-entry').forEach((item, i) => {
+          setTimeout(() => item.classList.add('visible'), i * 160);
+        });
       });
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-    /* ── GAMES SLIDESHOW ── */
-    const slideEls = [...document.querySelectorAll('.slide')];
-    const slideDots = [...document.querySelectorAll('.slide-dot')];
-    let slideIdx = 0;
-
-    function goSlide(n) {
-      slideEls[slideIdx].classList.remove('active');
-      slideDots[slideIdx].classList.remove('active');
-      slideIdx = (n + slideEls.length) % slideEls.length;
-      slideEls[slideIdx].classList.add('active');
-      slideDots[slideIdx].classList.add('active');
+    /* ── COUNT-UP ── */
+    function countUp(el) {
+      const target = +el.dataset.count;
+      const start = performance.now();
+      const dur = 1500;
+      function tick(now) {
+        const p = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(eased * target);
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = target;
+      }
+      requestAnimationFrame(tick);
     }
+    setTimeout(() => {
+      document.querySelectorAll('.stat-num').forEach(el => countUp(el));
+    }, 700);
 
-    document.getElementById('slidePrev').addEventListener('click', (e) => {
-      e.stopPropagation();
-      goSlide(slideIdx - 1);
-    });
-    document.getElementById('slideNext').addEventListener('click', (e) => {
-      e.stopPropagation();
-      goSlide(slideIdx + 1);
-    });
-    slideDots.forEach((d, i) => d.addEventListener('click', (e) => {
-      e.stopPropagation();
-      goSlide(i);
-    }));
   </script>
 </body>
 </html>

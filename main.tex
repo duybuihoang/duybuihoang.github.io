@@ -1,0 +1,393 @@
+\documentclass[10pt, letterpaper]{article}
+\usepackage{graphicx}
+\usepackage{fontawesome5}
+\usepackage{academicons}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom\href{}{}
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 0, 0} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Bui Hoang Duy's CV},
+    pdfauthor={Bui Hoang Duy},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage{charter}
+
+% Some settings:
+\raggedright
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0.15cm} % set column seperation
+\pagenumbering{gobble} % no page numbering
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0 cm + 0.00001 cm
+    }{
+        0 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{, \fill, 4.5 cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for three column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in June 2026}\hspace{\widthof{Last updated in June 2026}}
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{$|$}
+
+    \begin{header}
+        \fontsize{25 pt}{25 pt}\selectfont Bùi Hoàng Duy
+
+        \vspace{5 pt}
+
+        \normalsize
+        \mbox{\faMapMarker \hspace{2pt} Ho Chi Minh City, Vietnam}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\faEnvelope \hspace{2pt} \href{mailto:duybuihoang2210@gmail.com}{duybuihoang2210@gmail.com}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\faPhone \hspace{2pt} \hrefWithoutArrow{tel:+84-946-777-989}{+84 946777989}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\faLinkedin \hspace{2pt} \hrefWithoutArrow{https://www.linkedin.com/in/duybui2210}{linkedin.com/in/duybui2210}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\faGithub \hspace{2pt} \hrefWithoutArrow{https://github.com/duybuihoang}{github.com/duybuihoang}}%
+    \end{header}
+
+    \vspace{5 pt - 0.3 cm}
+
+
+    \section{Summary}
+        \begin{onecolentry}
+    A game developer based in Ho Chi Minh City with 2 years of professional experience shipping mobile titles using Unity. Passionate about crafting unique gameplay experiences — from hyper-casual puzzle mechanics to building games from scratch with C++ and SFML. Runner-up at the Voodoo Game Jam 2026. Quick to learn new technologies and confident working in English-language environments.
+        \end{onecolentry}
+
+    \section{Experience}
+
+        \begin{twocolentry}{
+            March 2026 -- Present
+        }
+            \textbf{MGIF -- Game Developer}\end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Collaborated closely with POs and Designers to build game mechanics and a level editor across 3 mobile titles.
+                \item Researched and implemented algorithms to realize complex gameplay systems.
+                \item Optimized performance to ensure a smooth player experience on a wide range of devices.
+                \item Techstack: Unity, C\#, Mobile
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            Oct 2025 -- March 2026
+        }
+            \textbf{Tenefic Games — Zlab Studio -- Game Developer}\end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Designed and implemented game mechanics and a level editor for a hyper-casual mobile title (Yarn Fever).
+                \item Optimized the render pipeline and memory usage to achieve stable frame rates across a wide range of devices.
+                \item Worked with designers to craft high-quality UI/UX experiences covering gameplay layout, booster systems, and animation flow.
+                \item Implemented additive scene loading to manage and optimize game flow architecture.
+                \item Techstack: Unity, C\#, Mobile
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            Nov 2024 -- Jan 2025
+        }
+            \textbf{Apps Cyclone Technology JSC -- Intern Unity Game Developer}\end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Integrated Firebase SDK (Authentication, Firestore, Realtime DB, Remote Config, Crashlytics, Analytics) to enhance backend functionality.
+                \item Implemented mediation SDKs (Google AdMob, IronSource/LevelPlay) to maximize in-app advertising revenue.
+                \item Developed and deployed games for Android, WebGL, Desktop, and Telegram.
+                \item Designed and implemented socket-based multiplayer functionality.
+                \item Created and integrated custom DLLs written in C++ to extend Unity capabilities.
+                \item Optimized game memory and performance.
+            \end{highlights}
+        \end{onecolentry}
+
+
+    \section{Projects}
+
+        \begin{twocolentry}{
+            March 2026 -- Present
+        }
+            \textbf{Color Crusher} — MGIF\end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Tap-and-smash block destruction puzzle game for mobile. Players collect items, fill a progress bar, and conquer hundreds of challenging levels.
+                \item \textbf{Runner-up at Voodoo Game Jam 2026} — praised for satisfying gameplay loop and polished visual feedback.
+                \item Techstack: Unity, C\#
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            Oct 2025 -- March 2026
+        }
+            \textbf{Yarn Fever} — Tenefic Games / Zlab Studio\end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Mobile puzzle game about untangling colorful yarn strands from crocheted objects and sorting them into matching color slots.
+                \item Improved performance through draw call optimization and algorithm enhancements, resulting in higher FPS, reduced device heating, and smoother gameplay.
+                \item Techstack: Unity, C\#
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            March 2025 -- Now
+        }
+            \faLink\ \href{https://github.com/duybuihoang/RayTracing}{\textbf{Ray Tracing}} — Personal Project\end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Exploring ray-tracing fundamentals including path tracing by building a renderer with support for Lambertian, metal, and dielectric materials.
+                \item Developed a minimal 3D rendering engine with camera system, material handling, scene composition, and sphere rendering.
+                \item Techstack: C++, CMake
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            Dec 2024 -- Jan 2025
+        }
+            \textbf{My Coffee Shop} — Apps Cyclone Technology JSC\end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Grid-based mobile restaurant management game inspired by Animal Restaurant, featuring NPC behavior system, menu unlocking, and table upgrades.
+                \item Integrated Firebase SDKs (Realtime DB, Remote Config, Crashlytics, Analytics) and login via Google/Facebook.
+                \item Integrated IronSource/LevelPlay (Banner, Interstitial, Reward Ads).
+                \item Developed a custom C++ DLL for A* pathfinding and imported it into Unity.
+                \item Techstack: Unity, C\#
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            2022
+        }
+            \faLink\ \href{https://github.com/duybuihoang}{\textbf{Void Raiders}} — Personal Project\end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Fast-paced bullet hell space shooter built from scratch; player pilots a fighter craft through dense waves of enemies and projectiles.
+                \item Implemented custom rendering, collision detection, particle systems, and enemy AI without a game engine.
+                \item Techstack: C++, SFML
+            \end{highlights}
+        \end{onecolentry}
+
+
+    \section{Achievements}
+
+        \begin{onecolentry}
+            \textbf{2nd Place — Voodoo Game Jam 2026} \hfill \textit{2026}
+        \end{onecolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Secured runner-up with \textit{Color Crusher}, a block-destruction puzzle game praised for its satisfying gameplay loop and polished visual feedback.
+            \end{highlights}
+        \end{onecolentry}
+
+
+    \section{Education}
+
+        \begin{twocolentry}{
+            Sept 2021 -- 2025
+        }
+            \textbf{University of Science -- VNUHCM}, BS in Information System\end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{Coursework:} Data Structures \& Algorithms, OOP, Mobile Application Development, Game Development, Database Management Systems, Data Security and Protection.
+            \end{highlights}
+        \end{onecolentry}
+
+
+    \section{Skills}
+
+        \begin{onecolentry}
+            \textbf{Languages:} C\#, C++, SQL, Python
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \textbf{Game Engines / Libraries:} Unity, SFML, SDL
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \textbf{Graphics \& Art:} Shader / HLSL, Blender 3D, Photoshop, Aseprite
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \textbf{Tools:} Git / GitHub, Visual Studio, Visual Studio Code, Android Studio
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \textbf{Other:} Game Design, UI / UX Design, Firebase SDK, Ad Mediation (AdMob, IronSource)
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \textbf{Language:} English (TOEIC — LR: 870 \textbar\ SW: 290)
+        \end{onecolentry}
+
+
+\end{document}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Coffee Shop — Bui Hoang Duy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <button class="lightbox-btn lightbox-prev" id="lightboxPrev">←</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+    <button class="lightbox-btn lightbox-next" id="lightboxNext">→</button>
+    <span class="lightbox-counter" id="lightboxCounter"></span>
+  </div>
+
+  <nav>
+    <div class="container">
+      <a href="../index.html" class="nav-logo">BHD<span>.</span>DEV</a>
+      <a href="../index.html#games" class="nav-back">← All Projects</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <span class="project-badge">[ PROJECT_DATA ]</span>
+      <h1 class="project-title">My Coffee Shop</h1>
+      <p class="project-subtitle">Apps Cyclone Technology JSC · 2023 · Mobile (iOS / Android)</p>
+
+      <hr class="project-hr" />
+
+      <div class="project-body">
+        <div>
+          <p class="section-label">OVERVIEW</p>
+          <p class="project-overview">Run your own cozy animal café, serve adorable customers, and uncover heartwarming stories along the way. Upgrade your menu, redecorate your shop, and grow your business into the most beloved dining spot in the animal world.</p>
+        </div>
+        <div>
+          <div class="sidebar-block">
+            <p class="sidebar-label">TIMELINE</p>
+            <p class="sidebar-value">2023 — 2024</p>
+          </div>
+          <div class="sidebar-block">
+            <p class="sidebar-label">PLATFORM</p>
+            <p class="sidebar-value">Mobile (iOS / Android)</p>
+          </div>
+          <div class="sidebar-block">
+            <p class="sidebar-label">TECHNOLOGY</p>
+            <div class="tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">Firebase</span>
+              <span class="tag">Ad Mediation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="project-hr" />
+
+      <p class="section-label">SCREENSHOTS</p>
+      <div class="media-grid">
+        <img src="../assets/My CoffeeShop/MyCoffeeShop.jpg" alt="My Coffee Shop" />
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const max = document.body.scrollHeight - window.innerHeight;
+      progressBar.style.width = (window.scrollY / max * 100) + '%';
+    }, { passive: true });
+
+    const lbImages = [...document.querySelectorAll('.media-grid img')];
+    let lbIdx = 0;
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCounter = document.getElementById('lightboxCounter');
+
+    function openLb(idx) {
+      lbIdx = idx;
+      lbImg.src = lbImages[lbIdx].src;
+      lbCounter.textContent = `${lbIdx + 1} / ${lbImages.length}`;
+      lb.classList.add('open');
+    }
+    function closeLb() { lb.classList.remove('open'); }
+
+    lbImages.forEach((img, i) => img.addEventListener('click', () => openLb(i)));
+    document.getElementById('lightboxClose').addEventListener('click', closeLb);
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', e => {
+      if (lb.classList.contains('open') && e.key === 'Escape') closeLb();
+    });
+  </script>
+</body>
+</html>
