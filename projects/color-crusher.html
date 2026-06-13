@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Color Crusher — Bui Hoang Duy</title>
+  <title>Color Crusher â€” Bui Hoang Duy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,7 +15,7 @@
   <nav>
     <div class="container">
       <a href="../index.html" class="nav-logo">BHD<span>.</span>DEV</a>
-      <a href="../index.html#games" class="nav-back">← All Projects</a>
+      <a href="../index.html#games" class="nav-back">â† All Projects</a>
     </div>
   </nav>
 
@@ -24,19 +24,19 @@
 
       <span class="project-badge">[ PROJECT_DATA ]</span>
       <h1 class="project-title">Color Crusher</h1>
-      <p class="project-subtitle">MGIF · 2026 · Mobile (iOS / Android)</p>
+      <p class="project-subtitle">MGIF Â· 2026 Â· Mobile (iOS / Android)</p>
 
       <hr class="project-hr" />
 
       <div class="project-body">
         <div>
           <p class="section-label">OVERVIEW</p>
-          <p class="project-overview">Tap and smash blocks to collect items, fill the progress bar, and conquer hundreds of challenging levels. Chain strategic combos for satisfying destruction sequences and unlock new stages with escalating difficulty. Runner-up at Voodoo Game Jam 2026.</p>
+          <p class="project-overview">Tap and smash blocks to collect items, fill the progress bar, and conquer hundreds of challenging levels. Chain strategic combos for satisfying destruction sequences and unlock new stages with escalating difficulty. <strong>Runner-up at Voodoo Game Jam 2026.</strong></p>
         </div>
         <div>
           <div class="sidebar-block">
             <p class="sidebar-label">TIMELINE</p>
-            <p class="sidebar-value">2025 — Present</p>
+            <p class="sidebar-value">2025 â€” Present</p>
           </div>
           <div class="sidebar-block">
             <p class="sidebar-label">PLATFORM</p>
@@ -72,6 +72,16 @@
       const max = document.body.scrollHeight - window.innerHeight;
       progressBar.style.width = (window.scrollY / max * 100) + '%';
     }, { passive: true });
+
+    /* media scroll-reveal */
+    const mediaObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (!entry.isIntersecting) return;
+        setTimeout(() => entry.target.classList.add('in'), i * 110);
+        mediaObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.media-grid img, .media-grid video').forEach(el => mediaObserver.observe(el));
   </script>
 </body>
 </html>
