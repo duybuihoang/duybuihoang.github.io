@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bui Hoang Duy â€” Game Developer</title>
+  <title>Bui Hoang Duy — Game Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
@@ -17,8 +17,8 @@
       --surface:      #131c2e;
       --border:       #1e2d45;
       --text:         #eef2f9;   /* brighter base text */
-      --body:         #aebcd6;   /* paragraph text â€” lifted for contrast */
-      --muted:        #8496ba;   /* secondary â€” lifted from #6b7fa3 */
+      --body:         #aebcd6;   /* paragraph text — lifted for contrast */
+      --muted:        #8496ba;   /* secondary — lifted from #6b7fa3 */
       --subtle:       #3a4d70;
       --accent:       #4d8ef0;
       --accent-light: #0f2044;
@@ -40,7 +40,7 @@
       padding: 0 2.5rem;
     }
 
-    /* â”€â”€ SCROLL PROGRESS â”€â”€ */
+    /* ── SCROLL PROGRESS ── */
     .scroll-progress {
       position: fixed;
       top: 0; left: 0;
@@ -51,7 +51,7 @@
       transition: width 0.08s linear;
     }
 
-    /* â”€â”€ NAV â”€â”€ */
+    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -92,7 +92,7 @@
     .nav-links a:hover { color: var(--text); }
     .nav-links a:hover::after { width: 100%; }
 
-    /* â”€â”€ KEYFRAMES â”€â”€ */
+    /* ── KEYFRAMES ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -134,9 +134,9 @@
       to   { transform: translateX(-50%); }
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════
        INTRO OVERLAY
-       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+       ════════════════════════════════════ */
     .intro {
       position: fixed; inset: 0;
       z-index: 500;
@@ -212,7 +212,7 @@
     .intro.loading .intro-status { opacity: 1; }
     .intro-pct { color: var(--accent); }
 
-    /* â”€â”€ HERO â”€â”€ */
+    /* ── HERO ── */
     .hero {
       height: 100vh;
       display: flex; align-items: center;
@@ -271,7 +271,7 @@
       display: block;
     }
 
-    /* hero text â€” staggers in after intro */
+    /* hero text — staggers in after intro */
     .hero-eyebrow,
     .hero-title,
     .hero-bio,
@@ -306,7 +306,7 @@
                  gradientMove 7s ease 0.7s infinite;
     }
 
-    /* typewriter line â€” gerlogu-style */
+    /* typewriter line — gerlogu-style */
     .hero-title {
       font-size: clamp(20px, 2.6vw, 27px);
       font-weight: 600;
@@ -408,10 +408,10 @@
       box-shadow: 0 4px 20px rgba(77,142,240,0.18);
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-       SKILLS MARQUEE â€” standalone band
+    /* ════════════════════════════════════
+       SKILLS MARQUEE — standalone band
        (section header removed, banner only)
-       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+       ════════════════════════════════════ */
     .marquee-band {
       padding: 3rem 0 3.5rem;
       overflow: hidden;
@@ -487,17 +487,17 @@
     }
 
     .marquee-item::after {
-      content: 'âœ¦';
+      content: '✦';
       font-size: 13px;
       opacity: 0.55;
     }
     .marquee--b .marquee-item::after {
-      content: 'â—‡';
+      content: '◇';
       color: var(--accent);
       opacity: 0.8;
     }
 
-    /* â”€â”€ SECTIONS â”€â”€ */
+    /* ── SECTIONS ── */
     section {
       min-height: 100vh;
       display: flex; align-items: center;
@@ -507,12 +507,12 @@
       padding-bottom: 3.5rem; width: 100%;
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-       SECTION HEAD â€” masked title reveal
+    /* ════════════════════════════════════
+       SECTION HEAD — masked title reveal
        Label fades up, title slides out of a
        clip mask, accent line draws across.
        Triggered by .reveal.visible
-       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+       ════════════════════════════════════ */
     .section-head { margin-bottom: 3.2rem; }
 
     .section-label {
@@ -553,7 +553,7 @@
     .reveal.visible .section-line  { width: 72px; }
     .reveal.visible .section-body  { opacity: 1; transform: none; }
 
-    /* â”€â”€ GAMES â”€â”€ */
+    /* ── GAMES ── */
     #games {
       background:
         radial-gradient(ellipse 80% 60% at 15%  5%,  rgba(56,189,248,0.14) 0%, transparent 55%),
@@ -572,7 +572,7 @@
     /*
       Hover UX fix: the description no longer expands the card
       (which reflowed the whole grid and made the page jump).
-      It now slides over the thumbnail as an overlay â€” the card
+      It now slides over the thumbnail as an overlay — the card
       keeps a constant size, so rapid hovering causes zero layout shift.
     */
     .game-card {
@@ -649,7 +649,7 @@
       border-color: rgba(77,142,240,0.35);
     }
 
-    /* â”€â”€ EXPERIENCE / GIT LOG TIMELINE â”€â”€ */
+    /* ── EXPERIENCE / GIT LOG TIMELINE ── */
     #experience {
       background:
         radial-gradient(ellipse 75% 60% at 5%   25%,  rgba(56,189,248,0.15) 0%, transparent 55%),
@@ -762,7 +762,7 @@
     }
     .git-entry:nth-child(3) .git-commit-card:hover { border-color: rgba(139,92,246,0.4); box-shadow: 0 6px 28px rgba(139,92,246,0.13); }
 
-    /* role is the headline now â€” company is support text above */
+    /* role is the headline now — company is support text above */
     .tl-role {
       font-size: 27px; font-weight: 800;
       color: var(--text); margin-bottom: 10px; letter-spacing: -0.8px;
@@ -782,7 +782,7 @@
       .git-entry--left .tags { justify-content: flex-start; }
     }
 
-    /* â”€â”€ ACHIEVEMENTS â”€â”€ */
+    /* ── ACHIEVEMENTS ── */
     #achievements {
       background:
         radial-gradient(ellipse 85% 65% at 82%  15%,  rgba(77,142,240,0.20) 0%, transparent 55%),
@@ -833,7 +833,7 @@
       font-size: 13px; font-weight: 600; color: #fbbf24; flex-shrink: 0;
     }
 
-    /* â”€â”€ SOCIAL DOCK â”€â”€ */
+    /* ── SOCIAL DOCK ── */
     .social-dock {
       position: fixed; bottom: 28px; right: 28px;
       display: flex; flex-direction: column; gap: 10px;
@@ -856,7 +856,7 @@
       box-shadow: 0 4px 18px rgba(77,142,240,0.28);
     }
 
-    /* â”€â”€ REDUCED MOTION â”€â”€ */
+    /* ── REDUCED MOTION ── */
     @media (prefers-reduced-motion: reduce) {
       .intro { display: none !important; }
       .hero-eyebrow, .hero-name, .hero-title, .hero-bio,
@@ -904,16 +904,16 @@
     <div class="container">
       <div class="hero-inner">
         <div class="hero-content">
-          <p class="hero-eyebrow">Game Developer Â· Ho Chi Minh City</p>
+          <p class="hero-eyebrow">Game Developer · Ho Chi Minh City</p>
           <h1 class="hero-name">Bui Hoang Duy</h1>
           <p class="hero-title">
             <span class="type-prefix">I build with </span><span class="type-text" id="typeText"></span><span class="type-cursor"></span>
           </p>
-          <p class="hero-bio">A game developer passionate about crafting unique gaming experiences on <strong>mobile and PC</strong>. I blend strong storytelling with inventive mechanics â€” from <strong>Unity</strong> to building from scratch with <strong>C++ and SFML</strong>, constantly pushing my limits through game jams.</p>
+          <p class="hero-bio">A game developer passionate about crafting unique gaming experiences on <strong>mobile and PC</strong>. I blend strong storytelling with inventive mechanics — from <strong>Unity</strong> to building from scratch with <strong>C++ and SFML</strong>, constantly pushing my limits through game jams.</p>
           <div class="hero-info-row">
-            <span class="hero-chip"><span class="chip-key">Location</span> Ho Chi Minh City ðŸ‡»ðŸ‡³</span>
+            <span class="hero-chip"><span class="chip-key">Location</span> Ho Chi Minh City 🇻🇳</span>
             <span class="hero-chip"><span class="chip-key">Lang</span> C#, C++</span>
-            <span class="hero-chip"><span class="chip-key">EDU</span> HCMUS â€” CS 2021</span>
+            <span class="hero-chip"><span class="chip-key">EDU</span> HCMUS — CS 2021</span>
           </div>
           <div class="hero-stats">
             <div class="stat">
@@ -929,7 +929,7 @@
               <span class="stat-label">Jam Awards</span>
             </div>
           </div>
-          <a href="#games" class="hero-cta">View Games â†’</a>
+          <a href="#games" class="hero-cta">View Games →</a>
           <a href="BuiHoangDuy_Game_Developer.pdf" download class="hero-cta-secondary">Download CV</a>
         </div>
         <div class="hero-avatar-wrap">
@@ -995,7 +995,7 @@
   <section id="games">
     <div class="container reveal">
       <div class="section-head">
-        <p class="section-label">01 Â· Games</p>
+        <p class="section-label">01 · Games</p>
         <div class="title-mask">
           <h2 class="section-title">Featured Games<span class="dot">.</span></h2>
         </div>
@@ -1013,7 +1013,7 @@
             </div>
             <div class="game-card-info">
               <h3 class="game-card-title">Color Crusher</h3>
-              <p class="game-card-studio">MGIF Â· 2026</p>
+              <p class="game-card-studio">MGIF · 2026</p>
             </div>
           </a>
 
@@ -1026,7 +1026,7 @@
             </div>
             <div class="game-card-info">
               <h3 class="game-card-title">Yarn Fever</h3>
-              <p class="game-card-studio">Zlab Â· 2025</p>
+              <p class="game-card-studio">Zlab · 2025</p>
             </div>
           </a>
 
@@ -1034,12 +1034,12 @@
             <div class="game-card-thumb">
               <img src="assets/My CoffeeShop/MyCoffeeShop.jpg" alt="My Coffee Shop" loading="lazy" />
               <div class="game-card-overlay">
-                <p>Run your own cozy animal cafÃ©, serve adorable customers, and uncover heartwarming stories along the way.</p>
+                <p>Run your own cozy animal café, serve adorable customers, and uncover heartwarming stories along the way.</p>
               </div>
             </div>
             <div class="game-card-info">
               <h3 class="game-card-title">My Coffee Shop</h3>
-              <p class="game-card-studio">Apps Cyclone Â· 2023</p>
+              <p class="game-card-studio">Apps Cyclone · 2023</p>
             </div>
           </a>
 
@@ -1052,7 +1052,7 @@
             </div>
             <div class="game-card-info">
               <h3 class="game-card-title">Void Raiders</h3>
-              <p class="game-card-studio">Personal Â· 2022</p>
+              <p class="game-card-studio">Personal · 2022</p>
             </div>
           </a>
 
@@ -1065,7 +1065,7 @@
   <section id="experience">
     <div class="container reveal">
       <div class="section-head">
-        <p class="section-label">02 Â· Experience</p>
+        <p class="section-label">02 · Experience</p>
         <div class="title-mask">
           <h2 class="section-title">Work History<span class="dot">.</span></h2>
         </div>
@@ -1080,7 +1080,7 @@
             <div class="git-content">
               <div class="git-commit-header">
                 <span class="git-company-label">MGIF</span>
-                <span class="git-commit-date">2026 â€” Present</span>
+                <span class="git-commit-date">2026 — Present</span>
               </div>
               <div class="git-commit-card">
                 <p class="tl-role">Game Developer</p>
@@ -1099,8 +1099,8 @@
           <div class="git-entry git-entry--left">
             <div class="git-content">
               <div class="git-commit-header">
-                <span class="git-company-label">Tenefic Games â€” Zlab Studio</span>
-                <span class="git-commit-date">2025 â€” 2026</span>
+                <span class="git-company-label">Tenefic Games — Zlab Studio</span>
+                <span class="git-commit-date">2025 — 2026</span>
               </div>
               <div class="git-commit-card">
                 <p class="tl-role">Game Developer</p>
@@ -1122,7 +1122,7 @@
             <div class="git-content">
               <div class="git-commit-header">
                 <span class="git-company-label">Apps Cyclone Technology JSC</span>
-                <span class="git-commit-date">2024 â€” 2025</span>
+                <span class="git-commit-date">2024 — 2025</span>
               </div>
               <div class="git-commit-card">
                 <p class="tl-role">Intern Game Developer</p>
@@ -1146,7 +1146,7 @@
   <section id="achievements">
     <div class="container reveal">
       <div class="section-head">
-        <p class="section-label">03 Â· Achievements</p>
+        <p class="section-label">03 · Achievements</p>
         <div class="title-mask">
           <h2 class="section-title">Achievements<span class="dot">.</span></h2>
         </div>
@@ -1155,16 +1155,16 @@
       <div class="section-body">
         <div class="achievement-wrap">
           <div class="achievement-img">
-            <img src="assets/VooDoo.jpg" alt="Voodoo Game Jam â€” 2nd Place" />
+            <img src="assets/VooDoo.jpg" alt="Voodoo Game Jam — 2nd Place" />
           </div>
           <div class="achievement-card">
-            <div class="achievement-badge">ðŸ¥ˆ</div>
+            <div class="achievement-badge">🥈</div>
             <div class="achievement-info">
-              <p class="achievement-title">2nd Place â€” Voodoo Game Jam</p>
-              <p class="achievement-meta">2026 Â· Color Crusher Â· Unity Â· Mobile</p>
-              <p class="achievement-desc">Secured 2nd place at the Voodoo Game Jam with Color Crusher â€” a block-destruction puzzle game praised for its satisfying gameplay loop and polished visual feedback.</p>
+              <p class="achievement-title">2nd Place — Voodoo Game Jam</p>
+              <p class="achievement-meta">2026 · Color Crusher · Unity · Mobile</p>
+              <p class="achievement-desc">Secured 2nd place at the Voodoo Game Jam with Color Crusher — a block-destruction puzzle game praised for its satisfying gameplay loop and polished visual feedback.</p>
             </div>
-            <div class="achievement-pill">ðŸ† Top 2</div>
+            <div class="achievement-pill">🏆 Top 2</div>
           </div>
         </div>
       </div>
@@ -1186,9 +1186,9 @@
 
 
   <script>
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════
        INTRO SEQUENCE
-       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+       ════════════════════════════════════ */
     const intro     = document.getElementById('intro');
     const introName = document.getElementById('introName');
     const barFill   = document.getElementById('introBarFill');
@@ -1249,16 +1249,16 @@
       setTimeout(finishIntro, 4500); // safety net
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════
        TYPEWRITER (gerlogu-style)
-       types a phrase â†’ holds â†’ deletes â†’ next
-       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+       types a phrase → holds → deletes → next
+       ════════════════════════════════════ */
     const typePhrases = [
       'Unity & C#.',
-      'C++ Â· SFML Â· SDL.',
+      'C++ · SFML · SDL.',
       'gameplay systems.',
       'level editor tools.',
-      'game jam energy âš¡'
+      'game jam energy ⚡'
     ];
     const typeEl = document.getElementById('typeText');
     let typeStarted = false;
@@ -1294,7 +1294,7 @@
       setTimeout(step, 600);
     }
 
-    /* â”€â”€ COUNT-UP (runs after intro) â”€â”€ */
+    /* ── COUNT-UP (runs after intro) ── */
     function countUp(el) {
       const target = +el.dataset.count;
       const start = performance.now();
@@ -1317,14 +1317,14 @@
       }, 600);
     }
 
-    /* â”€â”€ SCROLL PROGRESS â”€â”€ */
+    /* ── SCROLL PROGRESS ── */
     const progressBar = document.getElementById('scrollProgress');
     window.addEventListener('scroll', () => {
       const max = document.body.scrollHeight - window.innerHeight;
       progressBar.style.width = (window.scrollY / max * 100) + '%';
     }, { passive: true });
 
-    /* â”€â”€ SMOOTH NAV LINKS â”€â”€ */
+    /* ── SMOOTH NAV LINKS ── */
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', (e) => {
         const target = document.querySelector(a.getAttribute('href'));
@@ -1335,7 +1335,7 @@
       });
     });
 
-    /* â”€â”€ SECTION REVEAL (title mask + body stagger) â”€â”€ */
+    /* ── SECTION REVEAL (title mask + body stagger) ── */
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
