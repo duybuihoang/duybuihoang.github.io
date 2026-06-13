@@ -7,8 +7,8 @@ body { overflow-x: hidden; }
   --surface:      #131c2e;
   --border:       #1e2d45;
   --text:         #eef2f9;   /* brighter base */
-  --body:         #aebcd6;   /* paragraph text â€” lifted for contrast */
-  --muted:        #8496ba;   /* secondary â€” lifted from #6b7fa3 */
+  --body:         #aebcd6;   /* paragraph text — lifted for contrast */
+  --muted:        #8496ba;   /* secondary — lifted from #6b7fa3 */
   --subtle:       #3a4d70;
   --accent:       #4d8ef0;
   --accent-light: #0f2044;
@@ -47,7 +47,7 @@ nav .container { display: flex; align-items: center; justify-content: space-betw
 }
 .nav-back:hover { color: var(--text); gap: 10px; }
 
-/* â”€â”€ HERO GRADIENT BACKDROP behind the header â”€â”€
+/* ── HERO GRADIENT BACKDROP behind the header ──
    Gives the top of each project page atmosphere
    instead of a flat dark slab. */
 main {
@@ -67,7 +67,7 @@ main::before {
 }
 main .container { position: relative; z-index: 1; }
 
-/* â”€â”€ ENTRANCE ANIMATION for header block â”€â”€ */
+/* ── ENTRANCE ANIMATION for header block ── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -121,7 +121,7 @@ main .container { position: relative; z-index: 1; }
   background: var(--accent); border-radius: 2px;
 }
 
-/* OVERVIEW now reads like a lead paragraph â€” bigger, brighter,
+/* OVERVIEW now reads like a lead paragraph — bigger, brighter,
    with the first line emphasized for a clear focal point. */
 .project-overview {
   font-size: 18px; color: var(--body); line-height: 1.85;
