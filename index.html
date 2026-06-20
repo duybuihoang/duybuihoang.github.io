@@ -907,6 +907,13 @@
     @media (max-width: 640px) {
       .container { padding: 0 1.25rem; }
 
+      /* Hero — fix content taller than viewport being clipped by flex centering */
+      .hero {
+        height: auto;
+        min-height: 100vh;
+        align-items: flex-start;
+      }
+
       /* Nav — hamburger dropdown */
       .nav-toggle { display: flex; }
       .nav-links {
