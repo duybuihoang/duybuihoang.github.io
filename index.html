@@ -869,6 +869,109 @@
       .section-line { width: 72px !important; }
       .type-cursor { animation: none !important; }
     }
+
+    /* ════════════════════════════════════
+       HAMBURGER TOGGLE
+       ════════════════════════════════════ */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      flex-shrink: 0;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── HERO ACTIONS WRAPPER ── */
+    .hero-actions {
+      display: flex; flex-wrap: wrap;
+      align-items: center; gap: 12px;
+    }
+
+    /* ════════════════════════════════════
+       MOBILE RESPONSIVE
+       ════════════════════════════════════ */
+    @media (max-width: 640px) {
+      .container { padding: 0 1.25rem; }
+
+      /* Nav — hamburger dropdown */
+      .nav-toggle { display: flex; }
+      .nav-links {
+        position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: rgba(11,17,32,0.97);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        max-height: 0; overflow: hidden; padding: 0;
+        transition: max-height 0.35s cubic-bezier(0.22,1,0.36,1);
+        list-style: none;
+      }
+      .nav-links.open { max-height: 240px; padding: 0.5rem 0 0.75rem; }
+      .nav-links li { width: 100%; }
+      .nav-links a { display: block; padding: 0.65rem 1.5rem; font-size: 15px; color: var(--text); }
+      .nav-links a::after { display: none; }
+
+      /* Hero — avatar */
+      .hero-avatar { width: min(220px, 60vw); height: min(220px, 60vw); }
+      .hero-avatar-wrap::before { inset: -10px; }
+      .hero-avatar-wrap::after  { inset: -4px; }
+
+      /* Hero — text */
+      .hero-bio { font-size: 15.5px; }
+
+      /* Hero — stats */
+      .hero-stats { gap: 1.8rem; margin-bottom: 2rem; padding-bottom: 2rem; }
+      .stat-num { font-size: 36px; letter-spacing: -1.5px; }
+
+      /* Hero — CTA buttons */
+      .hero-cta-secondary { margin-left: 0; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .hero-cta,
+      .hero-cta-secondary { justify-content: center; }
+
+      /* Sections — tighter top/bottom */
+      section .container {
+        padding-top: calc(var(--nav-h) + 2rem);
+        padding-bottom: 2.5rem;
+      }
+
+      /* Experience — cards */
+      .git-commit-card { padding: 18px 20px; }
+      .tl-role { font-size: 22px; }
+
+      /* Achievement — stack vertically */
+      .achievement-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 20px 22px;
+      }
+      .achievement-badge { font-size: 36px; }
+      .achievement-title { font-size: 18px; }
+      .achievement-pill  { align-self: flex-start; }
+
+      /* Social dock — tighter on mobile */
+      .social-dock { bottom: 18px; right: 16px; }
+    }
+
+    @media (max-width: 380px) {
+      .hero-stats { gap: 1.2rem; }
+      .stat-num   { font-size: 30px; }
+      .stat-label { font-size: 10px; }
+    }
   </style>
 </head>
 <body class="lock">
@@ -891,7 +994,10 @@
   <nav>
     <div class="container">
       <span class="nav-logo">BHD<span>.</span>DEV</span>
-      <ul class="nav-links">
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
         <li><a href="#games">Games</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#achievements">Achievements</a></li>
@@ -929,8 +1035,10 @@
               <span class="stat-label">Jam Awards</span>
             </div>
           </div>
-          <a href="#games" class="hero-cta">View Games →</a>
-          <a href="BuiHoangDuy_Game_Developer.pdf" download class="hero-cta-secondary">Download CV</a>
+          <div class="hero-actions">
+            <a href="#games" class="hero-cta">View Games →</a>
+            <a href="BuiHoangDuy_Game_Developer.pdf" download class="hero-cta-secondary">Download CV</a>
+          </div>
         </div>
         <div class="hero-avatar-wrap">
           <img src="assets/Avatar.jpg" alt="Bui Hoang Duy" class="hero-avatar" />
@@ -1348,6 +1456,20 @@
     }, { threshold: 0.15 });
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ── MOBILE NAV TOGGLE ── */
+    const navToggle = document.getElementById('navToggle');
+    const navLinksList = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('open');
+      navLinksList.classList.toggle('open');
+    });
+    navLinksList.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navToggle.classList.remove('open');
+        navLinksList.classList.remove('open');
+      });
+    });
   </script>
 </body>
 </html>

@@ -230,3 +230,30 @@ main .container { position: relative; z-index: 1; }
   .project-badge, .project-title, .project-subtitle { opacity: 1 !important; animation: none !important; }
   .media-grid img, .media-grid video { opacity: 1 !important; transform: none !important; }
 }
+
+/* ════════════════════════════════════
+   MOBILE RESPONSIVE
+   ════════════════════════════════════ */
+@media (max-width: 640px) {
+  .container { padding: 0 1.25rem; }
+  main { padding-top: calc(var(--nav-h) + 3rem); padding-bottom: 4rem; }
+}
+
+@media (max-width: 480px) {
+  main { padding-top: calc(var(--nav-h) + 2.5rem); padding-bottom: 3rem; }
+
+  .project-title { letter-spacing: -1.5px; }
+  .project-subtitle { font-size: 13px; margin-bottom: 2rem; }
+  .project-overview { font-size: 16px; }
+
+  .project-body { gap: 2rem; }
+  .sidebar-block { margin-bottom: 1.2rem; padding-bottom: 1.2rem; }
+
+  .media-grid { gap: 10px; }
+
+  /* Lightbox nav buttons — keep them reachable on small screens */
+  .lightbox-prev { left: 10px; }
+  .lightbox-next { right: 10px; }
+  .lightbox-btn  { width: 38px; height: 38px; font-size: 15px; }
+  .lightbox-close { top: 12px; right: 12px; }
+}
