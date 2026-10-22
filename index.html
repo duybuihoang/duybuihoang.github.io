@@ -114,11 +114,6 @@
       to   { transform: rotate(-360deg); }
     }
 
-    @keyframes shimmer {
-      0%   { background-position: -200% center; }
-      100% { background-position:  200% center; }
-    }
-
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0.3; }
@@ -349,51 +344,39 @@
     }
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
     }
+    @media (max-width: 860px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .skills-grid { grid-template-columns: 1fr; } }
+
     .skill-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px; padding: 22px 24px;
+      border-radius: 12px; padding: 22px 24px 24px;
       opacity: 0; transform: translateY(22px);
       transition: opacity 0.45s ease, transform 0.45s ease,
                   border-color 0.18s, box-shadow 0.18s;
     }
     .skill-card.visible { opacity: 1; transform: translateY(0); }
     .skill-card.visible:hover {
-      border-color: var(--accent);
+      border-color: rgba(77,142,240,0.4);
       box-shadow: 0 6px 24px rgba(77,142,240,0.14);
       transform: translateY(-4px);
     }
-    .skill-header {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-bottom: 14px;
+    .skill-group-head {
+      display: flex; align-items: baseline; gap: 10px;
+      padding-bottom: 14px; margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
     }
-    .skill-name { font-size: 14px; font-weight: 600; color: var(--text); }
-    .skill-pct {
+    .skill-group-num {
       font-family: 'DM Mono', monospace;
-      font-size: 13px; color: var(--accent); font-weight: 500;
+      font-size: 11px; color: var(--accent); letter-spacing: 1px;
     }
-    .skill-bar {
-      height: 4px; background: var(--border);
-      border-radius: 2px; overflow: hidden;
+    .skill-group-name {
+      font-size: 16px; font-weight: 700;
+      color: var(--text); letter-spacing: -0.3px;
     }
-    .skill-fill {
-      height: 100%; border-radius: 2px;
-      width: 0; transition: width 1.3s cubic-bezier(.22,.68,0,1.1);
-      position: relative; overflow: hidden;
-    }
-    .skill-fill::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
-      background-size: 200% 100%;
-      animation: shimmer 2.2s linear infinite;
-    }
-    .c-accent { background: var(--accent); }
-    .c-dark   { background: #94a3b8; }
-    .c-mid    { background: #64748b; }
 
     /* ── GAMES ── */
     #games {
@@ -846,7 +829,7 @@
         <div class="hero-content">
           <p class="hero-eyebrow">Game Developer · Ho Chi Minh City</p>
           <h1 class="hero-name">Bui Hoang Duy</h1>
-          <p class="hero-title"><strong>Unity</strong> · SFML / SDL</p>
+          <p class="hero-title"><strong>Unity</strong> · SFML</p>
           <p class="hero-bio">A game developer based in Ho Chi Minh City, passionate about crafting unique gaming experiences on mobile and PC. I blend strong storytelling with inventive mechanics — from Unity to building from scratch with C++ and SFML, constantly pushing my limits through game jams.</p>
           <div class="hero-info-row">
             <span class="hero-chip"><span class="chip-key">Location</span> Ho Chi Minh City 🇻🇳</span>
@@ -855,11 +838,11 @@
           </div>
           <div class="hero-stats">
             <div class="stat">
-              <span class="stat-num" data-count="2">0</span>
-              <span class="stat-label">Years Exp</span>
+              <span class="stat-num" data-count="1">0</span>
+              <span class="stat-label">Year Exp</span>
             </div>
             <div class="stat">
-              <span class="stat-num" data-count="4">0</span>
+              <span class="stat-num" data-count="7">0</span>
               <span class="stat-label">Games Shipped</span>
             </div>
             <div class="stat">
@@ -883,14 +866,59 @@
       <p class="section-label">01 · Skills</p>
       <h2 class="section-title">Skills &amp; Tools</h2>
       <div class="skills-grid">
-        <div class="skill-card"><div class="skill-header"><span class="skill-name">Unity / C#</span><span class="skill-pct">92%</span></div><div class="skill-bar"><div class="skill-fill c-accent" data-w="92"></div></div></div>
-        <div class="skill-card"><div class="skill-header"><span class="skill-name">C++ / SFML / SDL</span><span class="skill-pct">78%</span></div><div class="skill-bar"><div class="skill-fill c-dark" data-w="78"></div></div></div>
-        <div class="skill-card"><div class="skill-header"><span class="skill-name">Shader / HLSL</span><span class="skill-pct">65%</span></div><div class="skill-bar"><div class="skill-fill c-mid" data-w="65"></div></div></div>
-        <div class="skill-card"><div class="skill-header"><span class="skill-name">Blender 3D</span><span class="skill-pct">70%</span></div><div class="skill-bar"><div class="skill-fill c-mid" data-w="70"></div></div></div>
-        <div class="skill-card"><div class="skill-header"><span class="skill-name">Game Design</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill c-accent" data-w="88"></div></div></div>
-        <div class="skill-card"><div class="skill-header"><span class="skill-name">Photoshop / Aseprite</span><span class="skill-pct">78%</span></div><div class="skill-bar"><div class="skill-fill c-mid" data-w="78"></div></div></div>
-        <div class="skill-card"><div class="skill-header"><span class="skill-name">Git / GitHub</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill c-dark" data-w="90"></div></div></div>
-        <div class="skill-card"><div class="skill-header"><span class="skill-name">UI / UX Design</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-fill c-mid" data-w="75"></div></div></div>
+        <div class="skill-card">
+          <div class="skill-group-head"><span class="skill-group-num">01</span><h3 class="skill-group-name">Languages</h3></div>
+          <div class="tags">
+            <span class="tag tag-accent">C#</span>
+            <span class="tag tag-accent">C++</span>
+            <span class="tag">GDScript</span>
+            <span class="tag">JavaScript / TypeScript</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Python</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-group-head"><span class="skill-group-num">02</span><h3 class="skill-group-name">Engines &amp; Libraries</h3></div>
+          <div class="tags">
+            <span class="tag tag-accent">Unity</span>
+            <span class="tag">Godot</span>
+            <span class="tag">Phaser</span>
+            <span class="tag">SFML</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-group-head"><span class="skill-group-num">03</span><h3 class="skill-group-name">Design &amp; Graphics</h3></div>
+          <div class="tags">
+            <span class="tag tag-accent">Game Design</span>
+            <span class="tag">UI / UX Design</span>
+            <span class="tag">Shader / HLSL</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-group-head"><span class="skill-group-num">04</span><h3 class="skill-group-name">AI Tools</h3></div>
+          <div class="tags">
+            <span class="tag tag-accent">Claude Code</span>
+            <span class="tag">MCP</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-group-head"><span class="skill-group-num">05</span><h3 class="skill-group-name">SDKs &amp; Services</h3></div>
+          <div class="tags">
+            <span class="tag">Firebase</span>
+            <span class="tag">Google AdMob</span>
+            <span class="tag">IronSource / LevelPlay</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-group-head"><span class="skill-group-num">06</span><h3 class="skill-group-name">Tools</h3></div>
+          <div class="tags">
+            <span class="tag">Git / GitHub</span>
+            <span class="tag">GitLab</span>
+            <span class="tag">Visual Studio</span>
+            <span class="tag">VS Code</span>
+            <span class="tag">Android Studio</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -908,10 +936,49 @@
           </div>
           <div class="game-card-info">
             <h3 class="game-card-title">Color Crusher</h3>
-            <p class="game-card-studio">MGIF · 2026</p>
+            <p class="game-card-studio">Tenefic Games — Zlab Studio · 2026</p>
           </div>
           <div class="game-card-desc-wrap">
             <p class="game-card-desc">Tap and smash blocks to collect items, fill the progress bar, and conquer hundreds of challenging levels. Runner-up at Voodoo Game Jam.</p>
+          </div>
+        </a>
+
+        <a class="game-card" href="projects/ball-sort.html">
+          <div class="game-card-thumb">
+            <img src="assets/Ball Sort/Ball Sort 1.jpg" alt="Ball Sort: Color Jam" loading="lazy" />
+          </div>
+          <div class="game-card-info">
+            <h3 class="game-card-title">Ball Sort: Color Jam</h3>
+            <p class="game-card-studio">MGIF · 2026</p>
+          </div>
+          <div class="game-card-desc-wrap">
+            <p class="game-card-desc">A relaxing 3D ball sorting puzzle — drop balls onto a moving conveyor and match each one into the right color box before the belt fills up.</p>
+          </div>
+        </a>
+
+        <a class="game-card" href="projects/block-association.html">
+          <div class="game-card-thumb">
+            <img src="assets/Block Association/Block Association 1.jpg" alt="Block Association" loading="lazy" />
+          </div>
+          <div class="game-card-info">
+            <h3 class="game-card-title">Block Association</h3>
+            <p class="game-card-studio">MGIF · 2026</p>
+          </div>
+          <div class="game-card-desc-wrap">
+            <p class="game-card-desc">A calm word association puzzle — drag blocks of words, icons, and images into the right categories to clear the board.</p>
+          </div>
+        </a>
+
+        <a class="game-card" href="projects/drop-the-octo.html">
+          <div class="game-card-thumb">
+            <img src="assets/Drop the Octo/Drop the Octo 1.jpg" alt="Drop the Octo" loading="lazy" />
+          </div>
+          <div class="game-card-info">
+            <h3 class="game-card-title">Drop the Octo</h3>
+            <p class="game-card-studio">MGIF · 2026</p>
+          </div>
+          <div class="game-card-desc-wrap">
+            <p class="game-card-desc">A cute spatial puzzle under the sea — drag and fit colored shapes to cover every octopus with its matching color before time runs out.</p>
           </div>
         </a>
 
@@ -934,7 +1001,7 @@
           </div>
           <div class="game-card-info">
             <h3 class="game-card-title">My Coffee Shop</h3>
-            <p class="game-card-studio">Apps Cyclone Technology JSC · 2023</p>
+            <p class="game-card-studio">Apps Cyclone Technology JSC · 2024</p>
           </div>
           <div class="game-card-desc-wrap">
             <p class="game-card-desc">Run your own cozy animal café, serve adorable customers, and uncover heartwarming stories along the way.</p>
@@ -971,7 +1038,7 @@
           <div class="git-content">
             <div class="git-commit-header">
               <span class="git-company-label">MGIF</span>
-              <span class="git-commit-date">2026 — Present</span>
+              <span class="git-commit-date">Mar 2026 — Oct 2026</span>
             </div>
             <div class="git-commit-card">
               <p class="tl-role">Game Developer</p>
@@ -991,11 +1058,11 @@
           <div class="git-content">
             <div class="git-commit-header">
               <span class="git-company-label">Tenefic Games — Zlab Studio</span>
-              <span class="git-commit-date">2025 — 2026</span>
+              <span class="git-commit-date">Oct 2025 — Mar 2026</span>
             </div>
             <div class="git-commit-card">
               <p class="tl-role">Game Developer</p>
-              <p class="tl-desc">Designed and implemented game mechanics and a level editor for a hyper-casual mobile title. Optimized the render pipeline and memory usage to achieve stable frame rates across a wide range of devices.</p>
+              <p class="tl-desc">Designed and implemented game mechanics and a level editor for two hyper-casual mobile titles. Optimized the render pipeline and memory usage to achieve stable frame rates across a wide range of devices.</p>
               <div class="tags" style="margin-top:16px">
                 <span class="tag tag-accent">Unity</span>
                 <span class="tag">C#</span>
@@ -1013,7 +1080,7 @@
           <div class="git-content">
             <div class="git-commit-header">
               <span class="git-company-label">Apps Cyclone Technology JSC</span>
-              <span class="git-commit-date">2024 — 2025</span>
+              <span class="git-commit-date">Dec 2024 — Jan 2025</span>
             </div>
             <div class="git-commit-card">
               <p class="tl-role">Intern Game Developer</p>
@@ -1093,9 +1160,6 @@
         if (!entry.isIntersecting) return;
         entry.target.classList.add('visible');
 
-        entry.target.querySelectorAll('.skill-fill').forEach(bar => {
-          bar.style.width = bar.dataset.w + '%';
-        });
         entry.target.querySelectorAll('.skill-card').forEach((card, i) => {
           setTimeout(() => card.classList.add('visible'), i * 70);
         });

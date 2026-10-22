@@ -98,6 +98,14 @@ main { padding-top: calc(var(--nav-h) + 4rem); padding-bottom: 6rem; }
   letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem;
 }
 .sidebar-value { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent); }
+.sidebar-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent);
+  border: 1px solid rgba(77,142,240,0.4); border-radius: 4px;
+  padding: 6px 12px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.sidebar-link:hover { background: var(--accent-light); border-color: var(--accent); }
 
 /* tags */
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
