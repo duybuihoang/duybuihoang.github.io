@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Coffee Shop — Bui Hoang Duy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -39,7 +39,7 @@
       <div class="project-body">
         <div>
           <p class="section-label">OVERVIEW</p>
-          <p class="project-overview">Run your own cozy animal café, serve adorable customers, and uncover heartwarming stories along the way. Upgrade your menu, redecorate your shop, and grow your business into the most beloved dining spot in the animal world.</p>
+          <p class="project-overview">Run your own cozy animal café, serve adorable customers, and uncover heartwarming stories along the way. Upgrade your menu, redecorate your shop, and <strong>grow your business into the most beloved dining spot</strong> in the animal world.</p>
         </div>
         <div>
           <div class="sidebar-block">
@@ -78,6 +78,16 @@
       const max = document.body.scrollHeight - window.innerHeight;
       progressBar.style.width = (window.scrollY / max * 100) + '%';
     }, { passive: true });
+
+    /* media scroll-reveal */
+    const mediaObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (!entry.isIntersecting) return;
+        setTimeout(() => entry.target.classList.add('in'), i * 110);
+        mediaObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.media-grid img, .media-grid video').forEach(el => mediaObserver.observe(el));
 
     const lbImages = [...document.querySelectorAll('.media-grid img')];
     let lbIdx = 0;

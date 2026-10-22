@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Block Association — Bui Hoang Duy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -85,6 +85,16 @@
       const max = document.body.scrollHeight - window.innerHeight;
       progressBar.style.width = (window.scrollY / max * 100) + '%';
     }, { passive: true });
+
+    /* media scroll-reveal */
+    const mediaObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (!entry.isIntersecting) return;
+        setTimeout(() => entry.target.classList.add('in'), (i % 3) * 100);
+        mediaObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.media-grid img, .media-grid video').forEach(el => mediaObserver.observe(el));
 
     const lbImages = [...document.querySelectorAll('.media-grid img')];
     let lbIdx = 0;
